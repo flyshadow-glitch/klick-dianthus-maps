@@ -185,22 +185,27 @@
     }
     .leg-ticks span:nth-child(2) { font-weight:600; color:var(--text-mid); }
 
-    /* ── Map zoom controls ──────────────────────────────────────────── */
+    /* ── Map zoom hint ──────────────────────────────────────────────── */
     .map-zoom-hint {
       position:absolute; bottom:var(--sp4); right:var(--sp6);
       font-family:'Libre Franklin',sans-serif; font-size:9.5px;
       color:oklch(42% 0.008 62 / 0.55); pointer-events:none;
       letter-spacing:.02em;
     }
-    #zoom-reset {
-      position:absolute; top:var(--sp4); right:var(--sp6);
-      font-family:'Oswald',sans-serif; font-size:9px; font-weight:500;
-      letter-spacing:.08em; text-transform:uppercase;
-      background:oklch(99.5% 0.002 62); border:1px solid var(--border-md);
-      color:var(--text-mid); padding:4px 10px; border-radius:2px;
-      cursor:pointer; display:none; transition:opacity .15s;
+
+    /* ── Canvas reset button (position:fixed, outside scaled canvas) ─ */
+    #zoom-reset-wrap {
+      position:fixed; bottom:20px; right:24px; z-index:9998;
+      display:none; /* shown by JS when zoomed */
     }
-    #zoom-reset:hover { color:var(--text); }
+    #zoom-reset {
+      font-family:'Oswald',sans-serif; font-size:10px; font-weight:500;
+      letter-spacing:.09em; text-transform:uppercase;
+      background:oklch(13% 0.006 62 / 0.88); border:1px solid oklch(40% 0.004 250);
+      color:oklch(97% 0.009 62 / 0.85); padding:7px 14px; border-radius:3px;
+      cursor:pointer; transition:background .15s; white-space:nowrap;
+    }
+    #zoom-reset:hover { background:oklch(20% 0.006 62); }
 
     /* ── Controls bar ───────────────────────────────────────────────── */
     .ctrl-bar {
@@ -465,6 +470,10 @@
 
 <div id="tip"></div>
 
+<div id="zoom-reset-wrap">
+  <button id="zoom-reset" onclick="resetZoom()">&#x21BA; Reset view</button>
+</div>
+
 <div id="canvas">
 
 <!-- HEADER -->
@@ -502,8 +511,7 @@
       <span id="leg-hi">—</span>
     </div>
   </div>
-  <button id="zoom-reset" onclick="resetZoom()">Reset zoom</button>
-  <div class="map-zoom-hint">Scroll to zoom · Click state to filter</div>
+  <div class="map-zoom-hint">Scroll anywhere to zoom · drag to pan</div>
 </div>
 
 <!-- METRIC GUIDE STRIP -->
@@ -795,39 +803,18 @@ function colorMap() {
 }
 
 // ── Map ──────────────────────────────────────────────────────────────────
-let mapZoom, mapSvg;
-
-function resetZoom() {
-  mapSvg.transition().duration(350).call(mapZoom.transform, d3.zoomIdentity);
-  document.getElementById("zoom-reset").style.display = "none";
-}
-
 async function initMap() {
   const us   = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
   const feat = topojson.feature(us, us.objects.states);
-  mapSvg     = d3.select("#map-svg");
-  const W    = mapSvg.node().clientWidth;
-  const H    = mapSvg.node().clientHeight;
+  const svg  = d3.select("#map-svg");
+  const W    = svg.node().clientWidth;
+  const H    = svg.node().clientHeight;
 
   const proj = d3.geoAlbersUsa().fitExtent([[24,12],[W-24,H-36]], feat);
   const path = d3.geoPath().projection(proj);
   const cs   = makeScale(metric);
 
-  // Group so zoom transform applies to all map elements together
-  const g = mapSvg.append("g").attr("id","map-g");
-
-  // D3 zoom — scroll on map to zoom in/out, drag to pan
-  mapZoom = d3.zoom()
-    .scaleExtent([1, 8])
-    .on("zoom", (event) => {
-      g.attr("transform", event.transform);
-      hideTip();
-      document.getElementById("zoom-reset").style.display =
-        event.transform.k > 1.01 ? "block" : "none";
-    });
-  mapSvg.call(mapZoom);
-
-  paths = g.selectAll(".state-path")
+  paths = svg.selectAll(".state-path")
     .data(feat.features).enter().append("path")
     .attr("class","state-path").attr("d",path)
     .attr("fill", f => {
@@ -845,7 +832,7 @@ async function initMap() {
     if (!f) return;
     const c = path.centroid(f);
     if (!c||isNaN(c[0])) return;
-    g.append("text").attr("class","st-label")
+    svg.append("text").attr("class","st-label")
       .attr("x",c[0]).attr("y",c[1]+4).attr("text-anchor","middle")
       .attr("pointer-events","none").text(d.cd);
   });
@@ -876,11 +863,66 @@ function checkPw() {
   }
 }
 
-// ── Viewport scaling ─────────────────────────────────────────────────────
-function scaleCanvas() {
-  const s = window.innerWidth / 1920;
-  document.getElementById('canvas').style.transform = 'scale(' + s + ')';
+// ── Viewport scaling + whole-canvas zoom + drag-to-pan ───────────────────
+let vpScale = 1, userK = 1, userX = 0, userY = 0;
+
+function applyTransform() {
+  const k = vpScale * userK;
+  const minX = Math.min(0, window.innerWidth  - 1920 * k);
+  const minY = Math.min(0, window.innerHeight - 1080 * k);
+  userX = Math.max(minX, Math.min(0, userX));
+  userY = Math.max(minY, Math.min(0, userY));
+  document.getElementById('canvas').style.transform =
+    'translate('+userX+'px,'+userY+'px) scale('+k+')';
+  document.getElementById('zoom-reset-wrap').style.display =
+    userK > 1.01 ? 'block' : 'none';
 }
+
+function scaleCanvas() {
+  vpScale = window.innerWidth / 1920;
+  applyTransform();
+}
+
+function resetZoom() {
+  userK = 1; userX = 0; userY = 0;
+  applyTransform();
+}
+
+// Scroll anywhere on canvas → zoom whole canvas
+document.getElementById('canvas').addEventListener('wheel', function(e) {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+  const newK = Math.max(1, Math.min(8, userK * factor));
+  const k = vpScale * userK, nk = vpScale * newK;
+  userX = e.clientX - (e.clientX - userX) * (nk / k);
+  userY = e.clientY - (e.clientY - userY) * (nk / k);
+  userK = newK;
+  applyTransform();
+}, { passive: false });
+
+// Drag to pan (only when zoomed in)
+var panState = null, wasPanning = false;
+document.getElementById('canvas').addEventListener('mousedown', function(e) {
+  if (userK <= 1.01 || e.button !== 0) return;
+  wasPanning = false;
+  panState = { cx: e.clientX, cy: e.clientY, ox: userX, oy: userY };
+});
+document.addEventListener('mousemove', function(e) {
+  if (!panState) return;
+  var dx = e.clientX - panState.cx, dy = e.clientY - panState.cy;
+  if (Math.hypot(dx, dy) > 5) {
+    wasPanning = true;
+    userX = panState.ox + dx;
+    userY = panState.oy + dy;
+    applyTransform();
+  }
+});
+document.addEventListener('mouseup', function() { panState = null; });
+// Block the click that fires after a pan drag
+document.addEventListener('click', function(e) {
+  if (wasPanning) { e.stopImmediatePropagation(); e.preventDefault(); wasPanning = false; }
+}, true);
+
 window.addEventListener('resize', scaleCanvas);
 scaleCanvas();
 </script>
