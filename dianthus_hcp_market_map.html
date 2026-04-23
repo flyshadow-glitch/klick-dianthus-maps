@@ -185,6 +185,23 @@
     }
     .leg-ticks span:nth-child(2) { font-weight:600; color:var(--text-mid); }
 
+    /* ── Map zoom controls ──────────────────────────────────────────── */
+    .map-zoom-hint {
+      position:absolute; bottom:var(--sp4); right:var(--sp6);
+      font-family:'Libre Franklin',sans-serif; font-size:9.5px;
+      color:oklch(42% 0.008 62 / 0.55); pointer-events:none;
+      letter-spacing:.02em;
+    }
+    #zoom-reset {
+      position:absolute; top:var(--sp4); right:var(--sp6);
+      font-family:'Oswald',sans-serif; font-size:9px; font-weight:500;
+      letter-spacing:.08em; text-transform:uppercase;
+      background:oklch(99.5% 0.002 62); border:1px solid var(--border-md);
+      color:var(--text-mid); padding:4px 10px; border-radius:2px;
+      cursor:pointer; display:none; transition:opacity .15s;
+    }
+    #zoom-reset:hover { color:var(--text); }
+
     /* ── Controls bar ───────────────────────────────────────────────── */
     .ctrl-bar {
       height: var(--ctrl);
@@ -485,6 +502,8 @@
       <span id="leg-hi">—</span>
     </div>
   </div>
+  <button id="zoom-reset" onclick="resetZoom()">Reset zoom</button>
+  <div class="map-zoom-hint">Scroll to zoom · Click state to filter</div>
 </div>
 
 <!-- METRIC GUIDE STRIP -->
@@ -776,18 +795,39 @@ function colorMap() {
 }
 
 // ── Map ──────────────────────────────────────────────────────────────────
+let mapZoom, mapSvg;
+
+function resetZoom() {
+  mapSvg.transition().duration(350).call(mapZoom.transform, d3.zoomIdentity);
+  document.getElementById("zoom-reset").style.display = "none";
+}
+
 async function initMap() {
   const us   = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
   const feat = topojson.feature(us, us.objects.states);
-  const svg  = d3.select("#map-svg");
-  const W    = svg.node().clientWidth;
-  const H    = svg.node().clientHeight;
+  mapSvg     = d3.select("#map-svg");
+  const W    = mapSvg.node().clientWidth;
+  const H    = mapSvg.node().clientHeight;
 
   const proj = d3.geoAlbersUsa().fitExtent([[24,12],[W-24,H-36]], feat);
   const path = d3.geoPath().projection(proj);
   const cs   = makeScale(metric);
 
-  paths = svg.selectAll(".state-path")
+  // Group so zoom transform applies to all map elements together
+  const g = mapSvg.append("g").attr("id","map-g");
+
+  // D3 zoom — scroll on map to zoom in/out, drag to pan
+  mapZoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", (event) => {
+      g.attr("transform", event.transform);
+      hideTip();
+      document.getElementById("zoom-reset").style.display =
+        event.transform.k > 1.01 ? "block" : "none";
+    });
+  mapSvg.call(mapZoom);
+
+  paths = g.selectAll(".state-path")
     .data(feat.features).enter().append("path")
     .attr("class","state-path").attr("d",path)
     .attr("fill", f => {
@@ -805,7 +845,7 @@ async function initMap() {
     if (!f) return;
     const c = path.centroid(f);
     if (!c||isNaN(c[0])) return;
-    svg.append("text").attr("class","st-label")
+    g.append("text").attr("class","st-label")
       .attr("x",c[0]).attr("y",c[1]+4).attr("text-anchor","middle")
       .attr("pointer-events","none").text(d.cd);
   });
@@ -838,7 +878,7 @@ function checkPw() {
 
 // ── Viewport scaling ─────────────────────────────────────────────────────
 function scaleCanvas() {
-  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const s = window.innerWidth / 1920;
   document.getElementById('canvas').style.transform = 'scale(' + s + ')';
 }
 window.addEventListener('resize', scaleCanvas);
