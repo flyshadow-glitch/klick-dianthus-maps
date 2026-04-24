@@ -19,7 +19,7 @@
     }
     #gate-logo {
       width: 160px; height: 50px;
-      background: url('Klick-Health-logo-860x530.jpg') center/contain no-repeat;
+      object-fit: contain; display: block;
       filter: brightness(0) invert(1);
     }
     #gate-title {
@@ -458,7 +458,7 @@
 
 <div id="gate">
   <div id="gate-inner">
-    <div id="gate-logo"></div>
+    <img id="gate-logo" src="" alt="Klick Health">
     <div id="gate-title">Market Intelligence</div>
     <div id="gate-sub">Klick Health · Restricted Access</div>
     <input type="password" id="pw-input" placeholder="Access code" autocomplete="off"
@@ -868,10 +868,12 @@ let vpScale = 1, userK = 1, userX = 0, userY = 0;
 
 function applyTransform() {
   const k = vpScale * userK;
-  const minX = Math.min(0, window.innerWidth  - 1920 * k);
-  const minY = Math.min(0, window.innerHeight - 1080 * k);
-  userX = Math.max(minX, Math.min(0, userX));
-  userY = Math.max(minY, Math.min(0, userY));
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const cvw = 1920 * k, cvh = 1080 * k;
+  const minX = Math.min(0, vw - cvw), maxX = Math.max(0, (vw - cvw) / 2);
+  const minY = Math.min(0, vh - cvh), maxY = Math.max(0, (vh - cvh) / 2);
+  userX = Math.max(minX, Math.min(maxX, userX));
+  userY = Math.max(minY, Math.min(maxY, userY));
   document.getElementById('canvas').style.transform =
     'translate('+userX+'px,'+userY+'px) scale('+k+')';
   document.getElementById('zoom-reset-wrap').style.display =
@@ -879,14 +881,14 @@ function applyTransform() {
 }
 
 function scaleCanvas() {
-  vpScale = window.innerWidth / 1920;
+  vpScale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  userK = 1;
+  userX = Math.max(0, (window.innerWidth  - 1920 * vpScale) / 2);
+  userY = Math.max(0, (window.innerHeight - 1080 * vpScale) / 2);
   applyTransform();
 }
 
-function resetZoom() {
-  userK = 1; userX = 0; userY = 0;
-  applyTransform();
-}
+function resetZoom() { scaleCanvas(); }
 
 // Scroll anywhere on canvas → zoom whole canvas
 document.getElementById('canvas').addEventListener('wheel', function(e) {
@@ -925,6 +927,9 @@ document.addEventListener('click', function(e) {
 
 window.addEventListener('resize', scaleCanvas);
 scaleCanvas();
+
+// Gate logo: copy base64 src from header logo
+document.getElementById('gate-logo').src = document.querySelector('.logo-wrap img').src;
 </script>
 </body>
 </html>
