@@ -262,7 +262,8 @@
     .tbl-section {
       height: var(--tbl);
       background: var(--surface);
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     table.lb {
@@ -270,6 +271,9 @@
       font-size:12.5px; font-variant-numeric:tabular-nums;
     }
 
+    table.lb thead {
+      position: sticky; top: 0; z-index: 10;
+    }
     table.lb thead tr {
       background: var(--klick-blk);
     }
@@ -278,10 +282,13 @@
       font-family:'Oswald',sans-serif; font-size:10px; font-weight:500;
       letter-spacing:.08em; text-transform:uppercase;
       color:oklch(100% 0 0 / 0.72); text-align:right; white-space:nowrap;
+      cursor: pointer; user-select: none;
     }
+    table.lb thead th:nth-child(1) { cursor: default; }
     table.lb thead th:nth-child(1),
     table.lb thead th:nth-child(2) { text-align:left; }
     table.lb thead th#val-th { color:var(--amber); }
+    table.lb thead th.sort-active { color: oklch(100% 0 0 / 0.95); }
 
     table.lb tbody tr {
       border-bottom: 1px solid oklch(88% 0.010 62 / 0.45);
@@ -511,7 +518,7 @@
       <span id="leg-hi">—</span>
     </div>
   </div>
-  <div class="map-zoom-hint">Scroll anywhere to zoom · drag to pan</div>
+  <div class="map-zoom-hint">Ctrl+scroll to zoom · drag to pan when zoomed</div>
 </div>
 
 <!-- METRIC GUIDE STRIP -->
@@ -556,13 +563,13 @@
     <thead>
       <tr>
         <th style="width:40px">#</th>
-        <th style="width:240px">State</th>
-        <th style="width:170px">Neuro HCPs</th>
-        <th style="width:140px">Legacy HCPs</th>
-        <th style="width:160px">Non-neuro HCPs</th>
-        <th style="width:145px">Total Remit</th>
-        <th style="width:165px">Misdx Patients</th>
-        <th style="width:165px" id="val-th">Index</th>
+        <th style="width:240px" data-sk="name" data-label="State">State</th>
+        <th style="width:170px" data-sk="neuro" data-label="Neuro HCPs">Neuro HCPs</th>
+        <th style="width:140px" data-sk="legacy" data-label="Legacy HCPs">Legacy HCPs</th>
+        <th style="width:160px" data-sk="nonneuro" data-label="Non-neuro HCPs">Non-neuro HCPs</th>
+        <th style="width:145px" data-sk="remit" data-label="Total Remit">Total Remit</th>
+        <th style="width:165px" data-sk="misdx" data-label="Misdx Patients">Misdx Patients</th>
+        <th style="width:165px" id="val-th" data-sk="__metric__" data-label="Index">Index</th>
       </tr>
     </thead>
     <tbody id="lb-body"></tbody>
@@ -732,21 +739,50 @@ function valBarCell(val, lo, hi) {
   </div>`;
 }
 
+// ── Table sort state ─────────────────────────────────────────────────────
+let sortCol = '__metric__', sortDir = -1;
+
+function setSort(key) {
+  if (sortCol === key) {
+    sortDir *= -1;
+  } else {
+    sortCol = key;
+    sortDir = key === 'name' ? 1 : -1;
+  }
+  renderTable();
+}
+
 // ── Table ────────────────────────────────────────────────────────────────
 function renderTable() {
   const filtered = document.getElementById("scaleChk").checked;
   const m = METRICS[metric];
-  document.getElementById("val-th").textContent = m.header;
   document.getElementById("tbl-sub").textContent = "by " + m.label;
+
+  // Update val-th label to match current metric
+  const valTh = document.getElementById("val-th");
+  valTh.dataset.label = m.header;
+
+  // Update all sortable headers: label + active indicator
+  document.querySelectorAll('table.lb thead th[data-sk]').forEach(th => {
+    const key = th.dataset.sk;
+    const label = th.dataset.label;
+    const active = key === sortCol;
+    th.classList.toggle('sort-active', active);
+    th.textContent = label + (active ? (sortDir === -1 ? ' ▼' : ' ▲') : '');
+  });
 
   const vals  = DATA.map(d => d[metric]);
   const mLo   = d3.min(vals), mHi = d3.max(vals);
-  const maxRemit = d3.max(DATA, d => d.remit);
 
+  const effectiveCol = sortCol === '__metric__' ? metric : sortCol;
   const rows = [...DATA]
     .filter(d => !filtered || d.neuro >= 50)
-    .sort((a,b) => b[metric]-a[metric])
-    .slice(0,10);
+    .sort((a, b) => {
+      const av = a[effectiveCol], bv = b[effectiveCol];
+      return typeof av === 'string'
+        ? sortDir * av.localeCompare(bv)
+        : sortDir * (av - bv);
+    });
 
   const tbody = document.getElementById("lb-body");
   tbody.innerHTML = "";
@@ -890,16 +926,33 @@ function scaleCanvas() {
 
 function resetZoom() { scaleCanvas(); }
 
-// Scroll anywhere on canvas → zoom whole canvas
+// Table header click → sort
+document.querySelector('table.lb thead').addEventListener('click', function(e) {
+  const th = e.target.closest('th[data-sk]');
+  if (th) setSort(th.dataset.sk);
+});
+
+// Ctrl+wheel → zoom · plain wheel → scroll table or pan canvas
 document.getElementById('canvas').addEventListener('wheel', function(e) {
   e.preventDefault();
-  const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-  const newK = Math.max(1, Math.min(8, userK * factor));
-  const k = vpScale * userK, nk = vpScale * newK;
-  userX = e.clientX - (e.clientX - userX) * (nk / k);
-  userY = e.clientY - (e.clientY - userY) * (nk / k);
-  userK = newK;
-  applyTransform();
+  if (e.ctrlKey) {
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const newK = Math.max(1, Math.min(8, userK * factor));
+    const k = vpScale * userK, nk = vpScale * newK;
+    userX = e.clientX - (e.clientX - userX) * (nk / k);
+    userY = e.clientY - (e.clientY - userY) * (nk / k);
+    userK = newK;
+    applyTransform();
+  } else {
+    const tbl = document.querySelector('.tbl-section');
+    if (tbl && tbl.contains(e.target)) {
+      tbl.scrollTop += e.deltaY;
+    } else {
+      userY -= e.deltaY;
+      userX -= e.deltaX || 0;
+      applyTransform();
+    }
+  }
 }, { passive: false });
 
 // Drag to pan (only when zoomed in)
