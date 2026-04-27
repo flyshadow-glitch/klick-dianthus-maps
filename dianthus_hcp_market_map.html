@@ -94,9 +94,9 @@
       --hdr:   91px;
       --seam:  11px;
       --map:  573px;
-      --guide: 125px;
+      --guide: 170px;
       --ctrl:   51px;
-      --tbl:  488px;
+      --tbl:  443px;
       --ftr:  101px;
     }
 
@@ -575,9 +575,9 @@
     <span class="guide-desc">Composite of HCP education remit and misdiagnosis burden, each indexed against national density. Higher = states where both reach and unmet need are elevated simultaneously.</span>
   </div>
   <div class="guide-card" data-metric="legacy_index" onclick="setMetric('legacy_index')">
-    <span class="guide-chip guide-chip-legacy">Legacy</span>
-    <span class="guide-name">Legacy HCP Density</span>
-    <span class="guide-desc">State density of legacy-pattern neurology HCPs (high historical prescribers, resistant to change) vs. national avg. &gt;1.0 = above-average legacy concentration.</span>
+    <span class="guide-chip guide-chip-legacy">Infusion Anchors</span>
+    <span class="guide-name">Infusion Anchor Density</span>
+    <span class="guide-desc">State density of infusion anchor neurology HCPs (high historical prescribers, resistant to change) vs. national avg. &gt;1.0 = above-average anchor concentration.</span>
   </div>
   <div class="guide-card" data-metric="misdx_index" onclick="setMetric('misdx_index')">
     <span class="guide-chip guide-chip-misdx">Misdx</span>
@@ -611,7 +611,7 @@
         <th style="width:40px">#</th>
         <th style="width:240px" data-sk="name" data-label="State">State</th>
         <th style="width:170px" data-sk="neuro" data-label="Neuro HCPs">Neuro HCPs</th>
-        <th style="width:140px" data-sk="legacy" data-label="Legacy HCPs">Legacy HCPs</th>
+        <th style="width:140px" data-sk="legacy" data-label="Infusion Anchors">Infusion Anchors</th>
         <th style="width:160px" data-sk="nonneuro" data-label="Non-neuro HCPs">Non-neuro HCPs</th>
         <th style="width:145px" data-sk="remit" data-label="Total Remit">Total Remit</th>
         <th style="width:165px" data-sk="misdx" data-label="Misdx Patients">Misdx Patients</th>
@@ -628,7 +628,7 @@
     <div class="mi-badge">Michigan Spotlight</div>
     <div class="mi-text">
       <strong>Michigan</strong> &mdash; 435 neurology HCPs and 2,594 non-neuro HCPs in the misdiagnosis flow.
-      Over-indexed on Legacy density (1.46&times;) and misdiagnosis burden (1.70&times;).
+      Over-indexed on Infusion Anchor density (1.46&times;) and misdiagnosis burden (1.70&times;).
       Composite: <strong>3.05</strong> &mdash; #1 priority market among scale states (&ge;50 neuro HCPs).
     </div>
   </div>
@@ -1028,7 +1028,7 @@ function showAccTip(e, name, key, pts, coe) {
 
 const METRICS = {
   composite:    {label:"Market Shaping Priority", legend:"Composite Index",                     header:"Composite"},
-  legacy_index: {label:"Legacy HCP Density",      legend:"Legacy Treaters vs. national avg",    header:"Legacy Idx"},
+  legacy_index: {label:"Infusion Anchor Density",  legend:"Infusion Anchors vs. national avg",   header:"Infusion Anchors"},
   misdx_index:  {label:"Misdiagnosis Burden",     legend:"MMN+CIDP misdx vs. national avg",     header:"Misdx Idx"},
   remit_index:  {label:"Total Education Remit",   legend:"Neuro + non-neuro HCPs vs. national", header:"Remit Idx"}
 };
@@ -1064,7 +1064,7 @@ function showTip(e, d) {
     <div class="tt-name">${d.name}</div>
     <div class="tt-m">${m.header}: ${v != null ? v.toFixed(2) : "—"}×</div>
     <div class="tt-r">Neurology HCPs: <strong>${d.neuro.toLocaleString()}</strong></div>
-    <div class="tt-r">Legacy HCPs: <strong>${d.legacy.toLocaleString()}</strong></div>
+    <div class="tt-r">Infusion Anchors: <strong>${d.legacy.toLocaleString()}</strong></div>
     <div class="tt-r">Non-neuro HCPs: <strong>${d.nonneuro.toLocaleString()}</strong></div>
     <div class="tt-r">Misdx Patients: <strong>${d.misdx.toLocaleString()}</strong></div>`;
 
