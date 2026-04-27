@@ -15,28 +15,28 @@
     }
     #gate-inner {
       display: flex; flex-direction: column; align-items: center;
-      gap: 18px; width: 320px;
+      gap: 24px; width: 427px;
     }
     #gate-logo {
-      width: 160px; height: 50px;
+      width: 213px; height: 67px;
       object-fit: contain; display: block;
       filter: brightness(0) invert(1);
     }
     #gate-title {
-      font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600;
+      font-family: 'Oswald', sans-serif; font-size: 29px; font-weight: 600;
       letter-spacing: .10em; text-transform: uppercase;
       color: oklch(97% 0.009 62); margin-top: 8px;
     }
     #gate-sub {
-      font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 300;
+      font-family: 'Libre Franklin', sans-serif; font-size: 16px; font-weight: 300;
       letter-spacing: .04em; color: oklch(97% 0 0 / 0.38);
-      margin-top: -10px;
+      margin-top: -12px;
     }
     #pw-input {
-      width: 100%; padding: 13px 16px;
+      width: 100%; padding: 17px 21px;
       background: oklch(18% 0.004 250); border: 1px solid oklch(40% 0.004 250);
       border-radius: 3px; color: oklch(97% 0.009 62);
-      font-family: 'Libre Franklin', sans-serif; font-size: 15px;
+      font-family: 'Libre Franklin', sans-serif; font-size: 20px;
       text-align: center; letter-spacing: .08em;
       outline: none; transition: border-color .2s;
     }
@@ -52,23 +52,23 @@
       80%      { transform: translateX(6px); }
     }
     #gate button {
-      width: 100%; padding: 13px;
+      width: 100%; padding: 17px;
       background: oklch(47% 0.145 24); border: none; border-radius: 3px;
-      color: #fff; font-family: 'Oswald', sans-serif; font-size: 14px;
+      color: #fff; font-family: 'Oswald', sans-serif; font-size: 19px;
       font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
       cursor: pointer; transition: background .15s;
     }
     #gate button:hover { background: oklch(54% 0.145 24); }
     #pw-err {
-      font-family: 'Libre Franklin', sans-serif; font-size: 12px;
-      color: oklch(67% 0.19 25); opacity: 0; transition: opacity .25s; height: 16px;
+      font-family: 'Libre Franklin', sans-serif; font-size: 16px;
+      color: oklch(67% 0.19 25); opacity: 0; transition: opacity .25s; height: 21px;
     }
     #pw-err.show { opacity: 1; }
 
     /* ── Tokens ─────────────────────────────────────────────────────── */
     :root {
-      --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px;
-      --sp6:24px; --sp8:32px; --sp12:48px;
+      --sp1:5px; --sp2:11px; --sp3:16px; --sp4:21px;
+      --sp6:32px; --sp8:43px; --sp12:64px;
 
       --bg:         oklch(97.2% 0.009 62);
       --surface:    oklch(99.5% 0.002 62);
@@ -90,14 +90,14 @@
       --border:     oklch(88% 0.010 62 / 0.65);
       --border-md:  oklch(84% 0.012 62);
 
-      /* Layout — sums to 1080px */
-      --hdr:   68px;
-      --seam:   8px;
-      --map:  430px;
-      --guide:  94px;
-      --ctrl:   38px;
-      --tbl:  366px;
-      --ftr:   76px;
+      /* Layout — sums to 1440px */
+      --hdr:   91px;
+      --seam:  11px;
+      --map:  573px;
+      --guide: 125px;
+      --ctrl:   51px;
+      --tbl:  488px;
+      --ftr:  101px;
     }
 
     *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
@@ -109,7 +109,7 @@
       margin: 0;
     }
     #canvas {
-      width: 1920px; height: 1080px;
+      width: 2560px; height: 1440px;
       transform-origin: top left;
       overflow: hidden;
       background: var(--bg);
@@ -127,19 +127,19 @@
       padding: 0 var(--sp8);
     }
     .hdr-left { display:flex; align-items:center; gap:var(--sp6); }
-    .logo-wrap img { height:30px; display:block; }
-    .hdr-sep { width:1px; height:26px; background:oklch(100% 0 0 / 0.2); flex-shrink:0; }
+    .logo-wrap img { height:40px; display:block; }
+    .hdr-sep { width:1px; height:35px; background:oklch(100% 0 0 / 0.2); flex-shrink:0; }
     .hdr-meta { display:flex; flex-direction:column; gap:2px; }
     .hdr-tag {
-      font-family:'Oswald',sans-serif; font-size:9.5px; font-weight:400;
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:400;
       letter-spacing:.14em; text-transform:uppercase; color:oklch(100% 0 0 / 0.48);
     }
     .hdr-sub {
-      font-family:'Libre Franklin',sans-serif; font-size:12px; font-weight:300;
+      font-family:'Libre Franklin',sans-serif; font-size:16px; font-weight:300;
       color:oklch(100% 0 0 / 0.60); letter-spacing:.02em;
     }
     .hdr-title {
-      font-family:'Oswald',sans-serif; font-size:22px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:29px; font-weight:600;
       color:oklch(100% 0 0 / 0.92); letter-spacing:.08em; text-transform:uppercase;
     }
 
@@ -164,7 +164,7 @@
     .state-path.mi   { stroke:var(--amber) !important; stroke-width:2px !important; }
 
     .st-label {
-      font-family:'Oswald',sans-serif; font-size:9px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:12px; font-weight:500;
       fill:oklch(13% 0.006 62 / 0.48); pointer-events:none; letter-spacing:.03em;
     }
 
@@ -174,21 +174,21 @@
       pointer-events:none;
     }
     .leg-label {
-      font-family:'Oswald',sans-serif; font-size:9.5px; font-weight:500;
-      letter-spacing:.09em; text-transform:uppercase; color:var(--cool-dark); margin-bottom:3px;
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
+      letter-spacing:.09em; text-transform:uppercase; color:var(--cool-dark); margin-bottom:4px;
     }
     #leg-svg { display:block; }
     .leg-ticks {
-      display:flex; justify-content:space-between; margin-top:3px;
-      font-family:'Libre Franklin',sans-serif; font-size:10px;
-      font-variant-numeric:tabular-nums; color:var(--text-dim); width:188px;
+      display:flex; justify-content:space-between; margin-top:4px;
+      font-family:'Libre Franklin',sans-serif; font-size:13px;
+      font-variant-numeric:tabular-nums; color:var(--text-dim); width:251px;
     }
     .leg-ticks span:nth-child(2) { font-weight:600; color:var(--text-mid); }
 
     /* ── Map zoom hint ──────────────────────────────────────────────── */
     .map-zoom-hint {
       position:absolute; bottom:var(--sp4); right:var(--sp6);
-      font-family:'Libre Franklin',sans-serif; font-size:9.5px;
+      font-family:'Libre Franklin',sans-serif; font-size:13px;
       color:oklch(42% 0.008 62 / 0.55); pointer-events:none;
       letter-spacing:.02em;
     }
@@ -199,10 +199,10 @@
       display:none; /* shown by JS when zoomed */
     }
     #zoom-reset {
-      font-family:'Oswald',sans-serif; font-size:10px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
       letter-spacing:.09em; text-transform:uppercase;
       background:oklch(13% 0.006 62 / 0.88); border:1px solid oklch(40% 0.004 250);
-      color:oklch(97% 0.009 62 / 0.85); padding:7px 14px; border-radius:3px;
+      color:oklch(97% 0.009 62 / 0.85); padding:9px 19px; border-radius:3px;
       cursor:pointer; transition:background .15s; white-space:nowrap;
     }
     #zoom-reset:hover { background:oklch(20% 0.006 62); }
@@ -218,18 +218,18 @@
     }
     .ctrl-grp { display:flex; align-items:center; gap:var(--sp2); }
     .ctrl-lbl {
-      font-family:'Oswald',sans-serif; font-size:9.5px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
       letter-spacing:.09em; text-transform:uppercase; color:var(--text-dim);
       flex-shrink:0;
     }
     .metric-sel {
-      padding:5px 28px 5px var(--sp3);
+      padding:7px 37px 7px var(--sp3);
       border:1.5px solid var(--border-md); background:var(--bg);
-      font-family:'Libre Franklin',sans-serif; font-size:13px; font-weight:500;
+      font-family:'Libre Franklin',sans-serif; font-size:17px; font-weight:500;
       color:var(--text); appearance:none; cursor:pointer; border-radius:2px;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath stroke='%23555' stroke-width='1.5' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-      background-repeat:no-repeat; background-position:right 8px center;
-      min-width:230px;
+      background-repeat:no-repeat; background-position:right 11px center;
+      min-width:307px;
     }
     .metric-sel:focus { outline:none; border-color:var(--cool-dark); }
 
@@ -243,18 +243,18 @@
       cursor:pointer; flex-shrink:0;
     }
     .filter-wrap label {
-      font-size:12px; font-weight:400; color:var(--text-mid);
+      font-size:16px; font-weight:400; color:var(--text-mid);
       cursor:pointer; user-select:none;
     }
 
     /* Table title in ctrl bar */
     .tbl-title-grp { margin-left:auto; display:flex; align-items:baseline; gap:var(--sp3); }
     .tbl-title {
-      font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:17px; font-weight:600;
       letter-spacing:.07em; text-transform:uppercase; color:var(--text);
     }
     .tbl-sub {
-      font-family:'Libre Franklin',sans-serif; font-size:11px;
+      font-family:'Libre Franklin',sans-serif; font-size:15px;
       color:var(--text-dim);
     }
 
@@ -268,7 +268,7 @@
 
     table.lb {
       width:100%; border-collapse:collapse;
-      font-size:12.5px; font-variant-numeric:tabular-nums;
+      font-size:17px; font-variant-numeric:tabular-nums;
     }
 
     table.lb thead {
@@ -278,8 +278,8 @@
       background: var(--klick-blk);
     }
     table.lb thead th {
-      padding: 10px var(--sp4);
-      font-family:'Oswald',sans-serif; font-size:10px; font-weight:500;
+      padding: 13px var(--sp4);
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
       letter-spacing:.08em; text-transform:uppercase;
       color:oklch(100% 0 0 / 0.72); text-align:right; white-space:nowrap;
       cursor: pointer; user-select: none;
@@ -300,22 +300,22 @@
 
     table.lb tbody td {
       padding: 0 var(--sp4);
-      height: 33px; text-align:right; color:var(--text); white-space:nowrap;
+      height: 44px; text-align:right; color:var(--text); white-space:nowrap;
     }
     table.lb tbody td:nth-child(1) {
       text-align:left;
-      font-family:'Oswald',sans-serif; font-weight:600; font-size:11px;
-      color:var(--cool-dark); width:32px; padding-left:var(--sp4);
+      font-family:'Oswald',sans-serif; font-weight:600; font-size:15px;
+      color:var(--cool-dark); width:43px; padding-left:var(--sp4);
     }
-    table.lb tbody td:nth-child(2) { text-align:left; font-size:13px; }
+    table.lb tbody td:nth-child(2) { text-align:left; font-size:17px; }
 
     /* Inline bar cells */
     .bar-cell {
       display:flex; align-items:center; justify-content:flex-end;
-      gap:6px; height:33px;
+      gap:8px; height:44px;
     }
     .bar-track {
-      width:72px; height:6px; background:oklch(90% 0.012 62);
+      width:96px; height:8px; background:oklch(90% 0.012 62);
       border-radius:2px; overflow:hidden; flex-shrink:0;
     }
     .bar-fill {
@@ -327,12 +327,12 @@
 
     /* Metric value cell */
     td.val-td {
-      font-weight:600; font-size:13.5px; color:var(--warm-dark);
+      font-weight:600; font-size:18px; color:var(--warm-dark);
     }
     .val-bar-cell {
-      display:flex; align-items:center; justify-content:flex-end; gap:6px; height:33px;
+      display:flex; align-items:center; justify-content:flex-end; gap:8px; height:44px;
     }
-    .val-bar-track { width:80px; height:7px; background:oklch(90% 0.012 62); border-radius:2px; overflow:hidden; flex-shrink:0; }
+    .val-bar-track { width:107px; height:9px; background:oklch(90% 0.012 62); border-radius:2px; overflow:hidden; flex-shrink:0; }
     .val-bar-fill  { height:100%; border-radius:2px; background:var(--warm-dark); }
 
     /* ── Footer ─────────────────────────────────────────────────────── */
@@ -352,12 +352,12 @@
     .mi-badge {
       flex-shrink:0; background:var(--amber);
       color:var(--text);
-      font-family:'Oswald',sans-serif; font-size:9px; font-weight:700;
+      font-family:'Oswald',sans-serif; font-size:12px; font-weight:700;
       letter-spacing:.12em; text-transform:uppercase;
-      padding:3px var(--sp2); border-radius:2px; white-space:nowrap;
+      padding:4px var(--sp2); border-radius:2px; white-space:nowrap;
     }
     .mi-text {
-      font-family:'Libre Franklin',sans-serif; font-size:12.5px;
+      font-family:'Libre Franklin',sans-serif; font-size:17px;
       font-weight:400; line-height:1.55; color:var(--text);
     }
     .mi-text strong { font-weight:600; }
@@ -417,27 +417,27 @@
     .guide-card[data-metric="remit_index"].active  { border-top-color: var(--amber);     background: oklch(98% 0.020 84  / 0.25); }
     .guide-chip {
       display: inline-block; align-self: flex-start;
-      font-family: 'Oswald',sans-serif; font-size: 8px; font-weight: 700;
+      font-family: 'Oswald',sans-serif; font-size: 11px; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase;
-      padding: 2px 5px; border-radius: 2px;
+      padding: 3px 7px; border-radius: 2px;
     }
     .guide-chip-composite { background: var(--warm-dark); color: #fff; }
     .guide-chip-legacy    { background: var(--cool-dark); color: #fff; }
     .guide-chip-misdx     { background: var(--warm-mid);  color: #fff; }
     .guide-chip-remit     { background: var(--amber); color: var(--text); }
     .guide-name {
-      font-family: 'Oswald',sans-serif; font-size: 11.5px; font-weight: 600;
+      font-family: 'Oswald',sans-serif; font-size: 15px; font-weight: 600;
       color: var(--text); letter-spacing: .02em;
     }
     .guide-desc {
-      font-family: 'Libre Franklin',sans-serif; font-size: 10px; font-weight: 300;
+      font-family: 'Libre Franklin',sans-serif; font-size: 13px; font-weight: 300;
       color: var(--text-dim); line-height: 1.38;
     }
 
     /* ── Footer (Michigan + methodology only) ───────────────────────── */
     .method-note {
       flex: 1;
-      font-family: 'Libre Franklin',sans-serif; font-size: 9.5px;
+      font-family: 'Libre Franklin',sans-serif; font-size: 13px;
       font-weight: 300; color: var(--text-dim); line-height: 1.5;
       letter-spacing: .01em;
     }
@@ -446,35 +446,57 @@
     #tip {
       position:fixed; pointer-events:none;
       background:oklch(13% 0.006 62 / 0.95); color:oklch(97% 0.009 62);
-      border-radius:3px; padding:11px 15px;
-      font-family:'Libre Franklin',sans-serif; font-size:12px; line-height:1.68;
-      max-width:300px; box-shadow:0 6px 28px oklch(0% 0 0 / 0.30);
+      border-radius:3px; padding:15px 20px;
+      font-family:'Libre Franklin',sans-serif; font-size:16px; line-height:1.68;
+      max-width:400px; box-shadow:0 8px 36px oklch(0% 0 0 / 0.30);
       display:none; z-index:9999;
     }
     .tt-name {
-      font-family:'Oswald',sans-serif; font-size:14px; font-weight:600;
-      letter-spacing:.03em; margin-bottom:5px; padding-bottom:5px;
+      font-family:'Oswald',sans-serif; font-size:19px; font-weight:600;
+      letter-spacing:.03em; margin-bottom:6px; padding-bottom:6px;
       border-bottom:1px solid oklch(100% 0 0 / 0.15); color:oklch(97% 0.009 62);
     }
     .tt-m { color:var(--warm-light); font-weight:600; }
-    .tt-r { color:oklch(97% 0.009 62 / 0.65); font-size:11px; }
+    .tt-r { color:oklch(97% 0.009 62 / 0.65); font-size:15px; }
     .tt-r strong { color:oklch(97% 0.009 62 / 0.88); font-weight:500; }
-    .tt-sep { height:1px; background:oklch(100% 0 0 / 0.12); margin:8px 0; }
+    .tt-sep { height:1px; background:oklch(100% 0 0 / 0.12); margin:10px 0; }
     .tt-sec {
-      font-family:'Oswald',sans-serif; font-size:9px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:12px; font-weight:600;
       letter-spacing:.10em; text-transform:uppercase;
-      color:oklch(100% 0 0 / 0.38); margin-bottom:3px;
+      color:oklch(100% 0 0 / 0.38); margin-bottom:4px;
     }
-    .tt-acc-name { font-size:11.5px; font-weight:500; color:oklch(97% 0.009 62 / 0.92); line-height:1.35; }
-    .tt-acc-sub  { font-size:10.5px; color:oklch(97% 0.009 62 / 0.46); margin-bottom:1px; }
-    .tt-acc-pts  { font-size:11px; color:oklch(97% 0.009 62 / 0.70); }
+    .tt-acc-name { font-size:15px; font-weight:500; color:oklch(97% 0.009 62 / 0.92); line-height:1.35; }
+    .tt-acc-sub  { font-size:14px; color:oklch(97% 0.009 62 / 0.46); margin-bottom:2px; }
+    .tt-acc-pts  { font-size:15px; color:oklch(97% 0.009 62 / 0.70); }
     .tt-acc-pts strong { color:oklch(97% 0.009 62 / 0.88); font-weight:500; }
     .tt-coe {
-      font-size:8px; font-family:'Oswald',sans-serif; font-weight:600;
+      font-size:11px; font-family:'Oswald',sans-serif; font-weight:600;
       letter-spacing:.06em; text-transform:uppercase;
       background:oklch(47% 0.145 24); color:#fff;
-      padding:1px 4px; border-radius:2px; vertical-align:middle; margin-left:5px;
+      padding:2px 5px; border-radius:2px; vertical-align:middle; margin-left:6px;
     }
+
+    /* ── Layer controls ──────────────────────────────────────────────── */
+    #layer-controls {
+      position:absolute; top:var(--sp3); right:var(--sp6);
+      display:flex; gap:var(--sp2); pointer-events:all; z-index:10;
+    }
+    .layer-btn {
+      display:flex; align-items:center; gap:7px;
+      font-family:'Oswald',sans-serif; font-size:11px; font-weight:600;
+      letter-spacing:.09em; text-transform:uppercase;
+      background:oklch(99.5% 0.002 62 / 0.90); color:var(--text-mid);
+      border:1.5px solid var(--border-md); border-radius:3px;
+      padding:6px 13px; cursor:pointer; transition:background .15s, color .15s;
+      white-space:nowrap; user-select:none;
+    }
+    .layer-btn:hover { background:oklch(97.2% 0.009 62); color:var(--text); }
+    .layer-btn.off { opacity:0.45; }
+    .layer-pip {
+      width:10px; height:10px; border-radius:50%; flex-shrink:0;
+    }
+    .layer-pip.dx  { background:oklch(54% 0.145 24); }
+    .layer-pip.inf { background:oklch(45% 0.056 199); }
   </style>
 </head>
 <body>
@@ -527,12 +549,20 @@
   <svg id="map-svg"></svg>
   <div class="legend">
     <div class="leg-label" id="leg-label">Composite Index</div>
-    <svg id="leg-svg" width="188" height="10"></svg>
+    <svg id="leg-svg" width="251" height="13"></svg>
     <div class="leg-ticks">
       <span id="leg-lo">—</span>
       <span>1.0×</span>
       <span id="leg-hi">—</span>
     </div>
+  </div>
+  <div id="layer-controls">
+    <button class="layer-btn" id="btn-dx" onclick="toggleLayer('dx')">
+      <span class="layer-pip dx"></span>Dx Accounts
+    </button>
+    <button class="layer-btn" id="btn-inf" onclick="toggleLayer('inf')">
+      <span class="layer-pip inf"></span>Infusion Sites
+    </button>
   </div>
   <div class="map-zoom-hint">Ctrl+scroll to zoom · drag to pan when zoomed</div>
 </div>
@@ -775,6 +805,228 @@ const TOP_INF = new Map([
   ["RI",{n:"Brown Neurology",                cl:"Physician Practice",city:"Providence",       tot:26, ivig:80.8,bio:19.2,coe:true}]
 ]);
 
+// ── Account layer data ─────────────────────────────────────────────────────
+const CITY_LL = new Map([
+  ["Birmingham AL",[33.519,-86.802]],["Huntsville AL",[34.730,-86.586]],["Montgomery AL",[32.361,-86.279]],
+  ["Little Rock AR",[34.746,-92.290]],
+  ["Gilbert AZ",[33.353,-111.789]],["Glendale AZ",[33.538,-112.186]],["Phoenix AZ",[33.448,-112.074]],["Scottsdale AZ",[33.494,-111.926]],["Tucson AZ",[32.221,-110.969]],
+  ["Berkeley CA",[37.872,-122.273]],["Duarte CA",[34.139,-117.978]],["Fresno CA",[36.747,-119.772]],["La Jolla CA",[32.842,-117.274]],["La Mesa CA",[32.768,-117.023]],["Loma Linda CA",[34.048,-117.261]],["Los Angeles CA",[34.052,-118.244]],["Newport Beach CA",[33.617,-117.929]],["Pomona CA",[34.056,-117.750]],["Rancho Mirage CA",[33.740,-116.413]],["Sacramento CA",[38.582,-121.494]],["Stanford CA",[37.427,-122.170]],["Stockton CA",[37.958,-121.291]],["Walnut Creek CA",[37.906,-122.067]],
+  ["Aurora CO",[39.729,-104.832]],["Centennial CO",[39.579,-104.877]],["Colorado Springs CO",[38.833,-104.821]],["Parker CO",[39.519,-104.762]],
+  ["Hartford CT",[41.763,-72.685]],["New Haven CT",[41.308,-72.928]],
+  ["Washington DC",[38.907,-77.037]],
+  ["Wilmington DE",[39.745,-75.547]],
+  ["Clermont FL",[28.549,-81.773]],["Gainesville FL",[29.651,-82.325]],["Jacksonville FL",[30.332,-81.656]],["Lakeland FL",[28.038,-81.949]],["Lake Mary FL",[28.759,-81.318]],["Maitland FL",[28.627,-81.363]],["Miami FL",[25.775,-80.209]],["Naples FL",[26.142,-81.795]],["Orlando FL",[28.538,-81.379]],["Pensacola FL",[30.421,-87.217]],["Port Saint Lucie FL",[27.293,-80.350]],["Rockledge FL",[28.352,-80.731]],["Sarasota FL",[27.336,-82.531]],["Stuart FL",[27.197,-80.253]],["Tampa FL",[27.948,-82.458]],["Vero Beach FL",[27.639,-80.397]],["Weston FL",[26.100,-80.400]],
+  ["Athens GA",[33.961,-83.378]],["Atlanta GA",[33.749,-84.388]],["Canton GA",[34.237,-84.491]],["Cumming GA",[34.207,-84.140]],["Jasper GA",[34.468,-84.428]],
+  ["Burr Ridge IL",[41.752,-87.919]],["Carol Stream IL",[41.912,-88.134]],["Chicago IL",[41.878,-87.630]],["Evanston IL",[42.045,-87.688]],["Lake Barrington IL",[42.220,-88.173]],["New Lenox IL",[41.510,-87.964]],
+  ["Carmel IN",[39.978,-86.118]],["Indianapolis IN",[39.768,-86.158]],["Muncie IN",[40.193,-85.386]],
+  ["Kansas City KS",[39.115,-94.627]],
+  ["La Grange KY",[38.407,-85.381]],["Lexington KY",[38.040,-84.458]],["Louisville KY",[38.252,-85.759]],
+  ["Baton Rouge LA",[30.458,-91.141]],["Lafayette LA",[30.224,-92.020]],["Monroe LA",[32.509,-92.119]],["Shreveport LA",[32.525,-93.750]],
+  ["Boston MA",[42.360,-71.059]],["Burlington MA",[42.505,-71.195]],
+  ["Annapolis MD",[38.978,-76.492]],["Baltimore MD",[39.290,-76.612]],["Glen Burnie MD",[39.163,-76.628]],
+  ["Portland ME",[43.660,-70.257]],
+  ["Ann Arbor MI",[42.281,-83.748]],["Detroit MI",[42.331,-83.046]],["Farmington Hills MI",[42.499,-83.367]],["Grand Rapids MI",[42.963,-85.668]],["Kalamazoo MI",[42.292,-85.586]],["Lapeer MI",[43.052,-83.319]],["Sault Sainte Marie MI",[46.496,-84.345]],
+  ["Bloomington MN",[44.841,-93.354]],["Minneapolis MN",[44.980,-93.271]],["Rochester MN",[44.022,-92.470]],["Saint Paul MN",[44.955,-93.091]],
+  ["North Kansas City MO",[39.128,-94.569]],
+  ["Jackson MS",[32.299,-90.184]],
+  ["Asheville NC",[35.579,-82.551]],["Raleigh NC",[35.779,-78.638]],
+  ["Lincoln NE",[40.813,-96.703]],["Omaha NE",[41.256,-95.938]],
+  ["Lebanon NH",[43.642,-72.252]],
+  ["Annandale NJ",[40.640,-74.882]],["Camden NJ",[39.926,-75.120]],["Egg Harbor Township NJ",[39.386,-74.630]],["Englewood NJ",[40.893,-73.973]],["Hackensack NJ",[40.886,-74.044]],["Morristown NJ",[40.797,-74.481]],["Paramus NJ",[40.944,-74.073]],["Paterson NJ",[40.916,-74.172]],["Princeton NJ",[40.357,-74.663]],["Sewell NJ",[39.741,-75.073]],["Stratford NJ",[39.820,-75.013]],["Summit NJ",[40.716,-74.358]],["Voorhees NJ",[39.856,-74.960]],
+  ["Albuquerque NM",[35.085,-106.651]],
+  ["Las Vegas NV",[36.175,-115.137]],["Reno NV",[39.529,-119.814]],
+  ["Albany NY",[42.652,-73.756]],["Amherst NY",[42.977,-78.740]],["Glens Falls NY",[43.309,-73.644]],["Great Neck NY",[40.800,-73.731]],["Greenlawn NY",[40.862,-73.367]],["Manhasset NY",[40.791,-73.695]],["Middletown NY",[41.445,-74.422]],["Mineola NY",[40.751,-73.638]],["Mount Kisco NY",[41.204,-73.727]],["New York NY",[40.713,-74.006]],["Rochester NY",[43.156,-77.615]],
+  ["Akron OH",[41.081,-81.519]],["Beachwood OH",[41.467,-81.510]],["Cincinnati OH",[39.103,-84.512]],["Cleveland OH",[41.499,-81.695]],["Columbus OH",[39.961,-82.999]],["Dayton OH",[39.759,-84.192]],["Kettering OH",[39.689,-84.169]],["Moraine OH",[39.689,-84.212]],
+  ["Bend OR",[44.058,-121.315]],["Springfield OR",[44.046,-123.022]],
+  ["Allentown PA",[40.602,-75.470]],["Newtown Square PA",[39.984,-75.403]],["Philadelphia PA",[39.953,-75.165]],["West Reading PA",[40.336,-75.948]],
+  ["Providence RI",[41.824,-71.413]],
+  ["Charleston SC",[32.776,-79.931]],["Greenville SC",[34.852,-82.394]],["Spartanburg SC",[34.950,-81.932]],["West Columbia SC",[33.994,-81.072]],
+  ["Chattanooga TN",[35.046,-85.309]],["Franklin TN",[35.925,-86.868]],["Jackson TN",[35.614,-88.814]],["Johnson City TN",[36.313,-82.352]],["Knoxville TN",[35.961,-83.921]],["Memphis TN",[35.149,-90.049]],["Morristown TN",[36.215,-83.296]],["Murfreesboro TN",[35.846,-86.390]],
+  ["Austin TX",[30.267,-97.743]],["Bedford TX",[32.844,-97.143]],["Dallas TX",[32.777,-96.797]],["Edinburg TX",[26.302,-98.163]],["El Paso TX",[31.761,-106.485]],["Fort Worth TX",[32.725,-97.321]],["Frisco TX",[33.151,-96.824]],["Galveston TX",[29.301,-94.796]],["Houston TX",[29.760,-95.370]],["San Angelo TX",[31.464,-100.437]],["San Antonio TX",[29.425,-98.494]],["Tyler TX",[32.352,-95.302]],["Wichita Falls TX",[33.914,-98.494]],
+  ["Charlottesville VA",[38.029,-78.477]],["Falls Church VA",[38.882,-77.171]],["Hampton VA",[37.030,-76.344]],["Newport News VA",[37.086,-76.473]],["Norfolk VA",[36.851,-76.289]],["Reston VA",[38.970,-77.341]],["Richmond VA",[37.541,-77.434]],["Williamsburg VA",[37.271,-76.707]],
+  ["Burlington VT",[44.476,-73.212]],
+  ["Bellingham WA",[48.759,-122.488]],["Tacoma WA",[47.253,-122.444]],["Vancouver WA",[45.638,-122.661]],["Wenatchee WA",[47.424,-120.310]],
+  ["Green Bay WI",[44.519,-88.020]],["Neenah WI",[44.184,-88.462]],["Wauwatosa WI",[43.049,-88.007]],
+]);
+
+const DX_ACCOUNTS = [
+  ["Cleveland Clinic","Cleveland OH",2129],["U Michigan Health","Ann Arbor MI",1619],["Northwestern Med Grp","Chicago IL",1396],
+  ["Neuroscience Consultants","Miami FL",1356],["Privia Med Group","Reston VA",1228],["Columbia University","New York NY",1050],
+  ["Christus Trinity","Tyler TX",1034],["Stanford Hospital","Stanford CA",1033],["CU Medicine","Aurora CO",977],
+  ["Privia Gulf Coast","Houston TX",907],["UT Southwestern","Dallas TX",860],["UVA Physicians","Charlottesville VA",789],
+  ["Lone Star Neurology","Frisco TX",772],["MedStar Med Grp II","Baltimore MD",771],["NW Medicine Regional","Carol Stream IL",730],
+  ["NorthShore Faculty","Evanston IL",719],["HonorHealth Lincoln","Phoenix AZ",719],["UF Health Shands","Gainesville FL",718],
+  ["Indiana Clinic Neuro","Indianapolis IN",701],["Mt Sinai Neurology","New York NY",701],["IU Health Med Grp","Indianapolis IN",676],
+  ["U Kansas Health","Kansas City KS",674],["AdvancedHealth","Franklin TN",672],["Clements Univ Hosp","Dallas TX",635],
+  ["UAMS Medical Ctr","Little Rock AR",631],["OhioHealth Phys Grp","Columbus OH",601],["HonorHealth Ambulatory","Scottsdale AZ",600],
+  ["Mayo Clinic","Rochester MN",598],["Texas Neurology PA","Dallas TX",592],["UCLA Neurology","Los Angeles CA",590],
+  ["OSU Neuro Memory","Columbus OH",575],["Dent Neurologic Inst","Amherst NY",572],["MGMC LLC","Washington DC",559],
+  ["Lehigh Valley Hosp","Allentown PA",545],["Main Line Healthcare","Newtown Square PA",540],["Mary Hitchcock Mem","Lebanon NH",539],
+  ["Hasan Neurology","Lapeer MI",527],["Cleveland Clinic FL","Weston FL",519],["Medical Faculty Assoc","Washington DC",508],
+  ["Riverside Phys Svcs","Newport News VA",506],["TX Health Harris FW","Fort Worth TX",500],["Banner Univ Med Grp","Phoenix AZ",500],
+  ["U Mississippi Med Ctr","Jackson MS",493],["IU Health Physicians","Indianapolis IN",487],["UVA Health Hosp","Charlottesville VA",487],
+  ["NHPP Cardiology","Great Neck NY",477],["Hartford Healthcare","Hartford CT",476],["MI Inst Neuro Disorders","Farmington Hills MI",465],
+  ["U Minnesota Health","Minneapolis MN",456],["UAB Hospital","Birmingham AL",455],["CareMount Medical","Mount Kisco NY",454],
+  ["MIDC LLC","Burr Ridge IL",452],["UChicago Medicine","Chicago IL",436],["Piedmont Physicians","Jasper GA",436],
+  ["Riverside Regional","Newport News VA",434],["Mt Sinai Hospital","New York NY",432],["Eisenhower Health","Rancho Mirage CA",428],
+  ["Tisch Hospital","New York NY",426],["Maine Medical Ctr","Portland ME",425],["MUSC","Charleston SC",421],
+  ["Corewell Health West","Grand Rapids MI",413],["AdventHealth Orlando","Orlando FL",411],["Renaissance Med Fdn","Edinburg TX",405],
+  ["Our Lady of Lake","Lafayette LA",404],["LSU Health Shreveport","Shreveport LA",399],["Neuro Consults Montg","Montgomery AL",390],
+  ["M Health Fairview UMN","Minneapolis MN",389],["ChristianaCare","Wilmington DE",385],["MUSC Physicians","Charleston SC",376],
+  ["Neurology Group Inc","Pomona CA",376],["Cleveland Clinic Martin","Stuart FL",374],["Crystal Run Healthcare","Middletown NY",372],
+  ["Hackensack Univ Med","Hackensack NJ",364],["Ochsner LSU Shreveport","Shreveport LA",356],["Laureate Med Grp","Atlanta GA",348],
+  ["UChicago Med New Lenox","New Lenox IL",343],["U Penn Med Grp","Philadelphia PA",342],["Baton Rouge Clinic","Baton Rouge LA",341],
+  ["UF Jacksonville","Jacksonville FL",332],["Am Health Network IN","Carmel IN",326],["Univ Hosp San Antonio","San Antonio TX",321],
+  ["Danny Bartel MD","Wichita Falls TX",321],["Hoag Hospital","Newport Beach CA",314],["Neurology of Rockies","Parker CO",313],
+  ["VCU Medical Ctr","Richmond VA",307],["Hartford Hospital","Hartford CT",305],["Presbyterian Hosp","Albuquerque NM",302],
+  ["Methodist Univ Hosp","Memphis TN",299],["Baptist Health Med Grp","Louisville KY",299],["Neuro Consults Dallas","Dallas TX",298],
+  ["Banner Univ Med Tucson","Tucson AZ",295],["Albany Med College","Albany NY",294],["UChicago Med New Lenox II","New Lenox IL",294],
+  ["Hartford Hospital II","Hartford CT",293],["Henry Ford Hospital","Detroit MI",293],["Albany Medical Ctr","Albany NY",292],
+  ["Reading Hospital","West Reading PA",290],["Premier Health Spec","Moraine OH",288],["Inova Fairfax","Falls Church VA",288],
+  ["Morristown Medical Ctr","Morristown NJ",287],["WakeMed Raleigh","Raleigh NC",286],["Renown Regional Med","Reno NV",284],
+  ["Methodist Phys Clinic","Omaha NE",282],["Cooper Advanced Care","Camden NJ",281],["Noran Neurological","Bloomington MN",279],
+  ["Ronald Reagan UCLA","Los Angeles CA",278],["Dartmouth-Hitchcock","Lebanon NH",278],["Austin Regional Clinic","Austin TX",277],
+  ["Franciscan Med Grp","Tacoma WA",277],["Lahey Hosp Med Ctr","Burlington MA",275],["MUSC Physicians II","Charleston SC",274],
+  ["Neuromuscular Research","Phoenix AZ",272],["Virtua Voorhees Hosp","Voorhees NJ",272],["U Maryland Med Ctr","Baltimore MD",270],
+  ["MI Healthcare Prof","Farmington Hills MI",270],["CMC Dept Medicine","Sewell NJ",268],["UTMB Health Galveston","Galveston TX",267],
+  ["UT Med Ctr Knoxville","Knoxville TN",266],["Spartanburg Med Ctr","Spartanburg SC",265],["Optum LA","Los Angeles CA",262],
+  ["Mayo Clinic St Marys","Rochester MN",262],["Neuro Spine Naples","Naples FL",261],["NYHCMC Neurology","New York NY",260],
+  ["Brown Neurology","Providence RI",258],["Fairview Clinics Spec","Saint Paul MN",258],["Sentara Norfolk Gen","Norfolk VA",257],
+  ["Jefferson Health","Voorhees NJ",256],["Methodist Hosp SA","San Antonio TX",255],["Medical College WI","Wauwatosa WI",254],
+  ["U Maryland Neuro Assoc","Baltimore MD",253],["Shannon Clinic","San Angelo TX",253],["Temple Neuro Assoc","Philadelphia PA",251],
+  ["Prisma Health Univ Grp","Greenville SC",249],["Erlanger Health","Chattanooga TN",249],["Baptist Health Lexington","Lexington KY",249],
+  ["Houston Methodist","Houston TX",248],["Neuroscience Group","Neenah WI",246],["Bellin Health","Green Bay WI",244],
+  ["Cleveland Clinic Indian River","Vero Beach FL",243],["Fac Phys LLUSM","Loma Linda CA",242],["Cleveland Clinic FL II","Weston FL",241],
+  ["U Maryland Community","Baltimore MD",238],["Memorial Health Partners","Chattanooga TN",238],["Our Lady of Lake Regional","Baton Rouge LA",238],
+  ["Riverside Methodist","Columbus OH",236],["AtlantiCare Phys Grp","Egg Harbor Township NJ",236],["Boston Medical Ctr","Boston MA",234],
+  ["MedStar Georgetown","Washington DC",230],["Cooper Univ Hosp","Camden NJ",229],["Lexington Neurology","West Columbia SC",229],
+  ["TX Health Harris FW II","Fort Worth TX",229],["Banner Univ Phoenix","Phoenix AZ",225],["W Tennessee Healthcare","Jackson TN",225],
+  ["Emory Clinic","Atlanta GA",225],["Kettering Health","Kettering OH",223],["HonorHealth Shea","Scottsdale AZ",222],
+  ["MHMH Regional Svcs","Lebanon NH",221],["MUSC Physicians III","Charleston SC",221],["First Physicians Grp","Sarasota FL",220],
+  ["Hosp Univ Pennsylvania","Philadelphia PA",220],["Kennedy Univ Hosp","Stratford NJ",219],["North Shore Med Grp","Greenlawn NY",217],
+  ["St Josephs Healthcare","Paterson NJ",216],["Lakeland Regional Health","Lakeland FL",216],["St Dominic Neuro Ctr","Jackson MS",213],
+  ["Banner Univ Phys Spec","Phoenix AZ",213],["UT Erlanger Health","Chattanooga TN",212],["Cleveland Clinic Akron","Akron OH",208],
+  ["Abbott Northwestern","Minneapolis MN",205],["Bronson Methodist Hosp","Kalamazoo MI",203],["Florida Neurology PA","Lake Mary FL",199],
+  ["JPS Hospital","Fort Worth TX",197],["HonorHealth Osborn","Scottsdale AZ",196],["Scripps Mem La Jolla","La Jolla CA",196],
+  ["Neuromuscular EMG TX","San Antonio TX",196],["Overlook Medical Ctr","Summit NJ",194],
+];
+
+const INF_ACCOUNTS = [
+  ["MIDC LLC","Burr Ridge IL",539,true],["Lone Star Neurology","Frisco TX",251,true],["Talis Healthcare","Houston TX",239,true],
+  ["Privia Gulf Coast","Houston TX",223,true],["Dent Neurologic Inst","Amherst NY",212,true],["Reliant Spec Infusion","Monroe LA",186,false],
+  ["U Michigan Health","Ann Arbor MI",183,true],["Texas Neurology PA","Dallas TX",174,true],["Neuroscience Consultants","Miami FL",153,true],
+  ["Stanford Hospital","Stanford CA",151,true],["M Health Fairview UMN","Minneapolis MN",117,true],["MI Inst Neuro Disorders","Farmington Hills MI",115,true],
+  ["Northwestern Med Grp","Chicago IL",114,true],["Shannon Medical Ctr","San Angelo TX",111,true],["Eisenhower Health","Rancho Mirage CA",104,true],
+  ["Maine Medical Ctr","Portland ME",98,true],["Cleveland Clinic","Cleveland OH",95,true],["Sutter Medical Ctr","Sacramento CA",92,true],
+  ["UVA Health Hosp","Charlottesville VA",91,true],["Presbyterian Hosp","Albuquerque NM",89,true],["Mission Medical Care","Manhasset NY",88,false],
+  ["Ochsner LSU Shreveport","Shreveport LA",87,true],["Tri State Mountain Neuro","Johnson City TN",82,true],["NYU Langone","New York NY",80,true],
+  ["Neuro Consults Montg","Montgomery AL",80,true],["TwelveStone Infusion","Murfreesboro TN",79,false],["MIC","Burr Ridge IL",79,false],
+  ["Neuromuscular Research","Phoenix AZ",74,true],["VCU Medical Ctr","Richmond VA",72,true],["Banner Univ Tucson","Tucson AZ",70,true],
+  ["Mary Hitchcock Mem","Lebanon NH",69,true],["AleraCare AIC","Phoenix AZ",67,false],["Sentara Norfolk Gen","Norfolk VA",67,true],
+  ["Kane Hall Barry Neuro","Bedford TX",66,true],["Grant Medical Ctr","Columbus OH",65,true],["Carolina Neurology","Spartanburg SC",61,true],
+  ["Albany Medical Ctr","Albany NY",61,true],["Kettering Health Dayton","Dayton OH",60,true],["Clements Univ Hosp","Dallas TX",60,true],
+  ["Baptist Health La Grange","La Grange KY",60,true],["Moffitt Cancer Ctr","Tampa FL",60,false],["Renown Regional Med","Reno NV",59,true],
+  ["HonorHealth Lincoln","Phoenix AZ",58,true],["Hartford Hospital","Hartford CT",58,true],["Neurology Assoc PA","Maitland FL",58,true],
+  ["Tri State Neuro PLLC","Memphis TN",58,true],["PeaceHealth Sacred Heart","Springfield OR",57,true],["UChicago Medicine","Chicago IL",57,true],
+  ["Synapse Neurological","Clermont FL",56,false],["Pure Healthcare CO","Colorado Springs CO",54,false],["Neuromuscular EMG TX","San Antonio TX",52,true],
+  ["U Kansas Health","Kansas City KS",52,true],["MHMH Regional Svcs","Lebanon NH",51,true],["Overlook Medical Ctr","Summit NJ",50,true],
+  ["Lehigh Valley Hosp","Allentown PA",50,true],["Riverside Regional","Newport News VA",49,true],["Mayo Clinic Phoenix","Phoenix AZ",49,false],
+  ["Noran Neurological","Bloomington MN",48,true],["Annapolis Neuro Assoc","Annapolis MD",48,true],["Northside Hosp Atlanta","Atlanta GA",48,true],
+  ["Cleveland Clinic Indian River","Vero Beach FL",47,true],["Ochsner LSU St Mary","Shreveport LA",47,true],["Health First Inc","Rockledge FL",47,false],
+  ["AdvancedHealth","Franklin TN",46,true],["Semmes Murphey Clinic","Memphis TN",46,true],["Hackensack Univ Med","Hackensack NJ",45,true],
+  ["Hunterdon Neurology","Annandale NJ",45,true],["Morristown Medical Ctr","Morristown NJ",44,true],["MyMichigan Sault","Sault Sainte Marie MI",44,true],
+  ["Yale New Haven Hosp","New Haven CT",44,true],["Mayo Clinic FL","Jacksonville FL",44,false],["NYC Medical Infusion","New York NY",44,false],
+  ["Erlanger Baroness Hosp","Chattanooga TN",43,true],["OSU Hospital","Columbus OH",42,true],["MHS Physicians TX","Houston TX",42,true],
+  ["Gilbert Neuro Partners","Gilbert AZ",41,true],["Cleveland Clinic FL Weston","Weston FL",41,true],["Bronson Methodist Hosp","Kalamazoo MI",41,true],
+  ["Beth Israel Deaconess","Boston MA",41,true],["Bryan East Campus","Lincoln NE",40,true],["Erlanger Baroness II","Chattanooga TN",40,true],
+  ["Cleveland Clinic Martin","Stuart FL",40,true],["W Tennessee Healthcare","Jackson TN",40,true],["U Mississippi Med Ctr","Jackson MS",39,true],
+  ["PeaceHealth SW Med Ctr","Vancouver WA",39,false],["Cleveland Clinic Fairview","Cleveland OH",39,true],["Prisma Health Greenville","Greenville SC",38,true],
+  ["Neuroscience Group","Neenah WI",38,true],["M Health Fairview St Johns","Saint Paul MN",38,true],["St Charles Bend","Bend OR",37,true],
+  ["Banner Univ Med South","Tucson AZ",37,true],["Luis Leon Diaz MD","Las Vegas NV",37,true],["Ascension Sacred Heart","Pensacola FL",37,true],
+  ["CO Springs Neuro Assoc","Colorado Springs CO",37,true],["California Neuro Ctr","Fresno CA",37,true],["Suzanne Gazda MD","San Antonio TX",37,true],
+  ["UAMS Medical Ctr","Little Rock AR",37,true],["North Kansas City Hosp","North Kansas City MO",36,true],["Athens Neuro Assoc","Athens GA",36,true],
+  ["Henry Ford Hospital","Detroit MI",36,true],["UAB Hospital","Birmingham AL",35,true],["North Shore Med Grp","Greenlawn NY",35,true],
+  ["HSS Ortho","New York NY",35,true],["Mayo Clinic St Marys","Rochester MN",35,true],["Riverside Methodist","Columbus OH",35,true],
+  ["AccuRx Infusion","Birmingham AL",35,false],["City of Hope Duarte","Duarte CA",35,false],["Knight Neurology","Rockledge FL",34,true],
+  ["Univ Hosp San Antonio","San Antonio TX",34,true],["Mayo Clinic","Rochester MN",34,true],["Boston Medical Ctr","Boston MA",34,true],
+  ["Reading Hospital","West Reading PA",34,true],["IntraMed Plus Infusion","West Columbia SC",33,false],["St Vincent Med Grp","Little Rock AR",33,true],
+  ["MPP Port St Lucie","Port Saint Lucie FL",33,false],["Houston Methodist Hosp","Houston TX",33,true],["Hoag Hospital","Newport Beach CA",33,true],
+  ["CareMount Medical","Mount Kisco NY",33,true],["Glens Falls Hospital","Glens Falls NY",33,true],["Infusion Care Providers","Princeton NJ",32,false],
+  ["Dartmouth-Hitchcock","Lebanon NH",32,true],["Asheville Neuro Spec","Asheville NC",32,true],["NYU Langone Long Island","Mineola NY",32,true],
+  ["Northside Hosp Forsyth","Cumming GA",32,true],["RiverHills Neuroscience","Cincinnati OH",32,true],["MD Ctr Neuro Sleep","Glen Burnie MD",32,true],
+  ["Permanente Med Grp","Stockton CA",32,true],["PeaceHealth St Joseph","Bellingham WA",31,false],["Englewood Health","Englewood NJ",31,true],
+  ["Brookwell Health","Morristown TN",31,false],["OSU Neuro Clinic","Columbus OH",31,true],["City of Hope II","Duarte CA",31,false],
+  ["Hartford Healthcare","Hartford CT",31,true],["Strong Memorial Hosp","Rochester NY",30,true],["Northwest Neurology","Lake Barrington IL",30,true],
+  ["Confluence Health","Wenatchee WA",30,false],["Neuro Consults Huntsville","Huntsville AL",29,true],["OhioHealth Corp","Columbus OH",29,true],
+  ["Northside Hosp Cherokee","Canton GA",29,true],["Minneapolis Clinic Neuro","Minneapolis MN",29,true],["Bellin Hospital","Green Bay WI",28,true],
+  ["Sentara Williamsburg","Williamsburg VA",28,true],["Texas Oncology","El Paso TX",28,false],["MedStar Georgetown","Washington DC",28,true],
+  ["Anne Arundel Med Grp","Annapolis MD",28,false],["Alta Bates Summit","Berkeley CA",28,true],["Tisch Hospital","New York NY",27,true],
+  ["Spartanburg Medical Ctr","Spartanburg SC",27,true],["NYU Langone Ortho","New York NY",27,true],["Sharp Grossmont Hosp","La Mesa CA",27,false],
+  ["ImmunoE Health Ctrs","Centennial CO",27,false],["MPP Infusion Tyler","Tyler TX",27,false],["Sentara CarePlex","Hampton VA",27,true],
+  ["UT Medical Ctr","Knoxville TN",26,true],["Vero Beach Neuro","Vero Beach FL",26,true],["IU Health FW Phys","Muncie IN",26,true],
+  ["Brown Neurology","Providence RI",26,true],["U Vermont Med Ctr","Burlington VT",26,true],["Walnut Creek Med Ctr","Walnut Creek CA",26,true],
+  ["ID Consultants","Beachwood OH",25,false],["Cleveland Clinic FL III","Weston FL",25,true],["Banner Thunderbird","Glendale AZ",25,true],
+  ["Specialty Infusion NJ","Paramus NJ",25,false],
+];
+
+let projFn = null;
+let layerVisible = {dx: true, inf: true};
+
+function drawAccountLayers() {
+  if (!projFn) return;
+  const svg = d3.select("#map-svg");
+
+  const dxG = svg.select("#dx-layer");
+  dxG.selectAll("*").remove();
+  if (layerVisible.dx) {
+    DX_ACCOUNTS.forEach(([name, key, pts]) => {
+      const ll = CITY_LL.get(key); if (!ll) return;
+      const p = projFn([ll[1], ll[0]]); if (!p) return;
+      const r = Math.max(4, Math.sqrt(pts) * 0.65);
+      dxG.append("circle")
+        .attr("cx", p[0]).attr("cy", p[1]).attr("r", r)
+        .attr("fill", "oklch(54% 0.145 24)").attr("opacity", 0.60)
+        .attr("stroke", "#fff").attr("stroke-width", 0.8)
+        .style("cursor","pointer")
+        .on("mousemove", (e) => showAccTip(e, name, key, pts, false))
+        .on("mouseleave", hideTip);
+    });
+  }
+
+  const infG = svg.select("#inf-layer");
+  infG.selectAll("*").remove();
+  if (layerVisible.inf) {
+    INF_ACCOUNTS.forEach(([name, key, pts, coe]) => {
+      const ll = CITY_LL.get(key); if (!ll) return;
+      const p = projFn([ll[1], ll[0]]); if (!p) return;
+      const r = Math.max(4, Math.sqrt(pts) * 0.65);
+      infG.append("circle")
+        .attr("cx", p[0]).attr("cy", p[1]).attr("r", r)
+        .attr("fill", "oklch(45% 0.056 199)").attr("opacity", 0.68)
+        .attr("stroke", "#fff").attr("stroke-width", 0.8)
+        .style("cursor","pointer")
+        .on("mousemove", (e) => showAccTip(e, name, key, pts, coe))
+        .on("mouseleave", hideTip);
+    });
+  }
+}
+
+function toggleLayer(type) {
+  layerVisible[type] = !layerVisible[type];
+  document.getElementById("btn-" + type).classList.toggle("off", !layerVisible[type]);
+  drawAccountLayers();
+}
+
+function showAccTip(e, name, key, pts, coe) {
+  const coeTag = coe ? ' <span class="tt-coe">CoE</span>' : '';
+  tipEl.innerHTML = `
+    <div class="tt-name">${name}${coeTag}</div>
+    <div class="tt-r">${key}</div>
+    <div class="tt-r"><strong>${pts.toLocaleString()}</strong> patients</div>`;
+  tipEl.style.display = "block";
+  moveTip(e);
+}
+
 const METRICS = {
   composite:    {label:"Market Shaping Priority", legend:"Composite Index",                     header:"Composite"},
   legacy_index: {label:"Legacy HCP Density",      legend:"Legacy Treaters vs. national avg",    header:"Legacy Idx"},
@@ -871,8 +1123,8 @@ function drawLegend() {
   g.append("stop").attr("offset","0%").attr("stop-color","#3A5A5E");
   g.append("stop").attr("offset","50%").attr("stop-color","#EFE7DA");
   g.append("stop").attr("offset","100%").attr("stop-color","#C2412B");
-  svg.append("rect").attr("x",0).attr("y",0).attr("width",188).attr("height",10).attr("rx",2).attr("fill","url(#lg)");
-  const pct = ((1.0-lo)/(hi-lo))*188;
+  svg.append("rect").attr("x",0).attr("y",0).attr("width",251).attr("height",13).attr("rx",2).attr("fill","url(#lg)");
+  const pct = ((1.0-lo)/(hi-lo))*251;
   svg.append("line").attr("x1",pct).attr("x2",pct).attr("y1",0).attr("y2",10)
      .attr("stroke","#1A1A1A").attr("stroke-width",1.5).attr("opacity",0.55);
 }
@@ -1001,6 +1253,7 @@ async function initMap() {
   const H    = svg.node().clientHeight;
 
   const proj = d3.geoAlbersUsa().fitExtent([[24,12],[W-24,H-36]], feat);
+  projFn = proj;
   const path = d3.geoPath().projection(proj);
   const cs   = makeScale(metric);
 
@@ -1013,6 +1266,10 @@ async function initMap() {
     .on("mousemove",(e,f) => { const d=byFips.get(String(f.id).padStart(2,"0")); if(d){showTip(e,d);moveTip(e);} })
     .on("mouseleave", hideTip)
     .on("click",(e,f) => { const d=byFips.get(String(f.id).padStart(2,"0")); if(d)selectState(d.cd); });
+
+  // Account dot layers (below state labels)
+  svg.append("g").attr("id","dx-layer");
+  svg.append("g").attr("id","inf-layer");
 
   // State abbreviation labels
   const bigSet=new Set(["CA","TX","FL","NY","PA","OH","IL","GA","NC","MI","WA","AZ","CO","VA","MN","MA","TN","WI","MO","MD","IN","LA","AL","SC","KY","OK","OR","NV","KS","MS","AR","IA","NE","NM","WV","UT","ND","MT","SD","ID"]);
@@ -1027,7 +1284,7 @@ async function initMap() {
       .attr("pointer-events","none").text(d.cd);
   });
 
-  refreshClasses(); drawLegend(); renderTable();
+  refreshClasses(); drawLegend(); renderTable(); drawAccountLayers();
 }
 
 initMap().catch(err => {
@@ -1059,7 +1316,7 @@ let vpScale = 1, userK = 1, userX = 0, userY = 0;
 function applyTransform() {
   const k = vpScale * userK;
   const vw = window.innerWidth, vh = window.innerHeight;
-  const cvw = 1920 * k, cvh = 1080 * k;
+  const cvw = 2560 * k, cvh = 1440 * k;
   const minX = Math.min(0, vw - cvw), maxX = Math.max(0, (vw - cvw) / 2);
   const minY = Math.min(0, vh - cvh), maxY = Math.max(0, (vh - cvh) / 2);
   userX = Math.max(minX, Math.min(maxX, userX));
@@ -1071,10 +1328,10 @@ function applyTransform() {
 }
 
 function scaleCanvas() {
-  vpScale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  vpScale = Math.min(window.innerWidth / 2560, window.innerHeight / 1440);
   userK = 1;
-  userX = Math.max(0, (window.innerWidth  - 1920 * vpScale) / 2);
-  userY = Math.max(0, (window.innerHeight - 1080 * vpScale) / 2);
+  userX = Math.max(0, (window.innerWidth  - 2560 * vpScale) / 2);
+  userY = Math.max(0, (window.innerHeight - 1440 * vpScale) / 2);
   applyTransform();
 }
 
