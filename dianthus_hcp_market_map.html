@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dianthus | HCP Market Map — Seismic Shift</title>
+  <title>Dianthus Therapeutics: Regional IQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
@@ -529,7 +529,7 @@
     </div>
     <div class="hdr-sep"></div>
     <div class="hdr-meta">
-      <div class="hdr-tag">Seismic Shift &nbsp;·&nbsp; Dianthus Therapeutics</div>
+      <div class="hdr-tag">Dianthus Therapeutics: Regional IQ</div>
       <div class="hdr-sub">Claseprubart — gMG, CIDP, MMN</div>
     </div>
   </div>
@@ -557,10 +557,10 @@
     </div>
   </div>
   <div id="layer-controls">
-    <button class="layer-btn" id="btn-dx" onclick="toggleLayer('dx')">
+    <button class="layer-btn off" id="btn-dx" onclick="toggleLayer('dx')">
       <span class="layer-pip dx"></span>Dx Accounts
     </button>
-    <button class="layer-btn" id="btn-inf" onclick="toggleLayer('inf')">
+    <button class="layer-btn off" id="btn-inf" onclick="toggleLayer('inf')">
       <span class="layer-pip inf"></span>Infusion Sites
     </button>
   </div>
@@ -970,7 +970,7 @@ const INF_ACCOUNTS = [
 ];
 
 let projFn = null;
-let layerVisible = {dx: true, inf: true};
+let layerVisible = {dx: false, inf: false};
 
 function drawAccountLayers() {
   if (!projFn) return;
