@@ -448,7 +448,7 @@
       background:oklch(13% 0.006 62 / 0.95); color:oklch(97% 0.009 62);
       border-radius:3px; padding:11px 15px;
       font-family:'Libre Franklin',sans-serif; font-size:12px; line-height:1.68;
-      max-width:248px; box-shadow:0 6px 28px oklch(0% 0 0 / 0.30);
+      max-width:300px; box-shadow:0 6px 28px oklch(0% 0 0 / 0.30);
       display:none; z-index:9999;
     }
     .tt-name {
@@ -457,8 +457,24 @@
       border-bottom:1px solid oklch(100% 0 0 / 0.15); color:oklch(97% 0.009 62);
     }
     .tt-m { color:var(--warm-light); font-weight:600; }
-    .tt-r { color:oklch(97% 0.009 62 / 0.65); }
+    .tt-r { color:oklch(97% 0.009 62 / 0.65); font-size:11px; }
     .tt-r strong { color:oklch(97% 0.009 62 / 0.88); font-weight:500; }
+    .tt-sep { height:1px; background:oklch(100% 0 0 / 0.12); margin:8px 0; }
+    .tt-sec {
+      font-family:'Oswald',sans-serif; font-size:9px; font-weight:600;
+      letter-spacing:.10em; text-transform:uppercase;
+      color:oklch(100% 0 0 / 0.38); margin-bottom:3px;
+    }
+    .tt-acc-name { font-size:11.5px; font-weight:500; color:oklch(97% 0.009 62 / 0.92); line-height:1.35; }
+    .tt-acc-sub  { font-size:10.5px; color:oklch(97% 0.009 62 / 0.46); margin-bottom:1px; }
+    .tt-acc-pts  { font-size:11px; color:oklch(97% 0.009 62 / 0.70); }
+    .tt-acc-pts strong { color:oklch(97% 0.009 62 / 0.88); font-weight:500; }
+    .tt-coe {
+      font-size:8px; font-family:'Oswald',sans-serif; font-weight:600;
+      letter-spacing:.06em; text-transform:uppercase;
+      background:oklch(47% 0.145 24); color:#fff;
+      padding:1px 4px; border-radius:2px; vertical-align:middle; margin-left:5px;
+    }
   </style>
 </head>
 <body>
@@ -594,60 +610,170 @@
 </div><!-- #canvas -->
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────
+// ── DATA  (source: part 8.4.csv — neuro=total_neuro_hcps, nonneuro=incidental_hcps) ──
 const DATA = [
-  {cd:"DC",name:"District of Columbia",fips:"11",neuro:65,legacy:32,nonneuro:191,remit:256,misdx:229,legacy_index:3.119,misdx_index:1.636,remit_index:2.128,composite:3.369},
-  {cd:"MI",name:"Michigan",fips:"26",neuro:435,legacy:215,nonneuro:2594,remit:3029,misdx:3427,legacy_index:1.451,misdx_index:1.696,remit_index:1.744,composite:3.046},
-  {cd:"NH",name:"New Hampshire",fips:"33",neuro:83,legacy:38,nonneuro:339,remit:422,misdx:460,legacy_index:1.846,misdx_index:1.638,remit_index:1.748,composite:2.842},
-  {cd:"NV",name:"Nevada",fips:"32",neuro:98,legacy:46,nonneuro:660,remit:758,misdx:1056,legacy_index:0.963,misdx_index:1.622,remit_index:1.354,composite:2.272},
-  {cd:"LA",name:"Louisiana",fips:"22",neuro:158,legacy:60,nonneuro:945,remit:1103,misdx:1361,legacy_index:0.893,misdx_index:1.485,remit_index:1.4,composite:2.105},
-  {cd:"DE",name:"Delaware",fips:"10",neuro:58,legacy:40,nonneuro:248,remit:306,misdx:242,legacy_index:2.602,misdx_index:1.154,remit_index:1.698,composite:2.049},
-  {cd:"ME",name:"Maine",fips:"23",neuro:55,legacy:28,nonneuro:330,remit:385,misdx:345,legacy_index:1.364,misdx_index:1.232,remit_index:1.599,composite:2.035},
-  {cd:"SD",name:"South Dakota",fips:"46",neuro:35,legacy:15,nonneuro:191,remit:226,misdx:244,legacy_index:1.11,misdx_index:1.324,remit_index:1.427,composite:1.912},
-  {cd:"AZ",name:"Arizona",fips:"04",neuro:257,legacy:130,nonneuro:1305,remit:1562,misdx:1940,legacy_index:1.173,misdx_index:1.284,remit_index:1.202,composite:1.575},
-  {cd:"FL",name:"Florida",fips:"12",neuro:815,legacy:416,nonneuro:3880,remit:4695,misdx:6055,legacy_index:1.218,misdx_index:1.3,remit_index:1.173,composite:1.549},
-  {cd:"NJ",name:"New Jersey",fips:"34",neuro:325,legacy:158,nonneuro:1525,remit:1850,misdx:2420,legacy_index:1.138,misdx_index:1.278,remit_index:1.137,composite:1.468},
-  {cd:"SC",name:"South Carolina",fips:"45",neuro:146,legacy:76,nonneuro:924,remit:1070,misdx:1332,legacy_index:0.949,misdx_index:1.22,remit_index:1.14,composite:1.444},
-  {cd:"RI",name:"Rhode Island",fips:"44",neuro:52,legacy:34,nonneuro:187,remit:239,misdx:248,legacy_index:2.092,misdx_index:1.119,remit_index:1.254,composite:1.441},
-  {cd:"PA",name:"Pennsylvania",fips:"42",neuro:502,legacy:246,nonneuro:2311,remit:2813,misdx:2818,legacy_index:1.287,misdx_index:1.081,remit_index:1.255,composite:1.37},
-  {cd:"TN",name:"Tennessee",fips:"47",neuro:175,legacy:82,nonneuro:1196,remit:1371,misdx:1654,legacy_index:0.776,misdx_index:1.148,remit_index:1.107,composite:1.316},
-  {cd:"CT",name:"Connecticut",fips:"09",neuro:132,legacy:49,nonneuro:607,remit:739,misdx:809,legacy_index:0.913,misdx_index:1.105,remit_index:1.174,composite:1.278},
-  {cd:"CA",name:"California",fips:"06",neuro:1293,legacy:705,nonneuro:5922,remit:7215,misdx:8651,legacy_index:1.224,misdx_index:1.101,remit_index:1.068,composite:1.2},
-  {cd:"OH",name:"Ohio",fips:"39",neuro:452,legacy:198,nonneuro:1933,remit:2385,misdx:2429,legacy_index:1.14,misdx_index:1.026,remit_index:1.172,composite:1.192},
-  {cd:"KY",name:"Kentucky",fips:"21",neuro:140,legacy:46,nonneuro:677,remit:817,misdx:1050,legacy_index:0.686,misdx_index:1.148,remit_index:1.039,composite:1.173},
-  {cd:"MD",name:"Maryland",fips:"24",neuro:227,legacy:114,nonneuro:996,remit:1223,misdx:1264,legacy_index:1.246,misdx_index:1.013,remit_index:1.14,composite:1.164},
-  {cd:"AL",name:"Alabama",fips:"01",neuro:129,legacy:56,nonneuro:736,remit:865,misdx:1128,legacy_index:0.743,misdx_index:1.097,remit_index:0.979,composite:1.093},
-  {cd:"NY",name:"New York",fips:"36",neuro:853,legacy:418,nonneuro:2546,remit:3399,misdx:4448,legacy_index:1.44,misdx_index:1.123,remit_index:0.999,composite:1.087},
-  {cd:"TX",name:"Texas",fips:"48",neuro:696,legacy:318,nonneuro:4002,remit:4698,misdx:6546,legacy_index:0.696,misdx_index:1.05,remit_index:0.876,composite:0.94},
-  {cd:"MN",name:"Minnesota",fips:"27",neuro:252,legacy:107,nonneuro:821,remit:1073,misdx:998,legacy_index:1.264,misdx_index:0.864,remit_index:1.081,composite:0.898},
-  {cd:"NE",name:"Nebraska",fips:"31",neuro:52,legacy:20,nonneuro:290,remit:342,misdx:354,legacy_index:0.683,misdx_index:0.886,remit_index:0.995,composite:0.888},
-  {cd:"VT",name:"Vermont",fips:"50",neuro:27,legacy:13,nonneuro:93,remit:120,misdx:102,legacy_index:1.372,misdx_index:0.789,remit_index:1.08,composite:0.836},
-  {cd:"CO",name:"Colorado",fips:"08",neuro:195,legacy:90,nonneuro:679,remit:874,misdx:1110,legacy_index:1.034,misdx_index:0.935,remit_index:0.856,composite:0.782},
-  {cd:"WV",name:"West Virginia",fips:"54",neuro:58,legacy:22,nonneuro:235,remit:293,misdx:290,legacy_index:0.851,misdx_index:0.822,remit_index:0.966,composite:0.774},
-  {cd:"IN",name:"Indiana",fips:"18",neuro:236,legacy:88,nonneuro:849,remit:1085,misdx:1213,legacy_index:0.87,misdx_index:0.879,remit_index:0.915,composite:0.771},
-  {cd:"VA",name:"Virginia",fips:"51",neuro:296,legacy:142,nonneuro:1071,remit:1367,misdx:1514,legacy_index:1.103,misdx_index:0.862,remit_index:0.906,composite:0.77},
-  {cd:"NM",name:"New Mexico",fips:"35",neuro:57,legacy:25,nonneuro:285,remit:342,misdx:322,legacy_index:0.803,misdx_index:0.758,remit_index:0.937,composite:0.716},
-  {cd:"GA",name:"Georgia",fips:"13",neuro:292,legacy:131,nonneuro:1195,remit:1487,misdx:1711,legacy_index:0.802,misdx_index:0.768,remit_index:0.776,composite:0.59},
-  {cd:"MA",name:"Massachusetts",fips:"25",neuro:275,legacy:110,nonneuro:810,remit:1085,misdx:997,legacy_index:1.055,misdx_index:0.701,remit_index:0.887,composite:0.586},
-  {cd:"OK",name:"Oklahoma",fips:"40",neuro:81,legacy:27,nonneuro:470,remit:551,misdx:585,legacy_index:0.451,misdx_index:0.717,remit_index:0.785,composite:0.564},
-  {cd:"IL",name:"Illinois",fips:"17",neuro:372,legacy:153,nonneuro:1304,remit:1676,misdx:1735,legacy_index:0.824,misdx_index:0.685,remit_index:0.77,composite:0.509},
-  {cd:"AR",name:"Arkansas",fips:"05",neuro:55,legacy:23,nonneuro:320,remit:375,misdx:416,legacy_index:0.51,misdx_index:0.676,remit_index:0.709,composite:0.487},
-  {cd:"IA",name:"Iowa",fips:"19",neuro:61,legacy:35,nonneuro:356,remit:417,misdx:401,legacy_index:0.739,misdx_index:0.621,remit_index:0.751,composite:0.485},
-  {cd:"WI",name:"Wisconsin",fips:"55",neuro:153,legacy:48,nonneuro:610,remit:763,misdx:765,legacy_index:0.551,misdx_index:0.644,remit_index:0.747,composite:0.461},
-  {cd:"WY",name:"Wyoming",fips:"56",neuro:7,legacy:2,nonneuro:68,remit:75,misdx:69,legacy_index:0.233,misdx_index:0.589,remit_index:0.745,composite:0.455},
-  {cd:"WA",name:"Washington",fips:"53",neuro:222,legacy:78,nonneuro:750,remit:972,misdx:1017,legacy_index:0.671,misdx_index:0.641,remit_index:0.713,composite:0.433},
-  {cd:"MS",name:"Mississippi",fips:"28",neuro:64,legacy:21,nonneuro:275,remit:339,misdx:386,legacy_index:0.488,misdx_index:0.658,remit_index:0.672,composite:0.429},
-  {cd:"OR",name:"Oregon",fips:"41",neuro:101,legacy:39,nonneuro:425,remit:526,misdx:495,legacy_index:0.625,misdx_index:0.581,remit_index:0.719,composite:0.409},
-  {cd:"KS",name:"Kansas",fips:"20",neuro:69,legacy:32,nonneuro:294,remit:363,misdx:337,legacy_index:0.737,misdx_index:0.569,remit_index:0.713,composite:0.405},
-  {cd:"MO",name:"Missouri",fips:"29",neuro:192,legacy:75,nonneuro:537,remit:729,misdx:742,legacy_index:0.822,misdx_index:0.596,remit_index:0.681,composite:0.379},
-  {cd:"MT",name:"Montana",fips:"30",neuro:34,legacy:8,nonneuro:96,remit:130,misdx:139,legacy_index:0.481,misdx_index:0.613,remit_index:0.667,composite:0.364},
-  {cd:"ID",name:"Idaho",fips:"16",neuro:32,legacy:12,nonneuro:166,remit:198,misdx:247,legacy_index:0.404,misdx_index:0.61,remit_index:0.569,composite:0.346},
-  {cd:"ND",name:"North Dakota",fips:"38",neuro:23,legacy:13,nonneuro:56,remit:79,misdx:92,legacy_index:1.117,misdx_index:0.58,remit_index:0.579,composite:0.325},
-  {cd:"NC",name:"North Carolina",fips:"37",neuro:261,legacy:96,nonneuro:894,remit:1155,misdx:1147,legacy_index:0.595,misdx_index:0.521,remit_index:0.61,composite:0.303},
-  {cd:"HI",name:"Hawaii",fips:"15",neuro:36,legacy:9,nonneuro:97,remit:133,misdx:121,legacy_index:0.426,misdx_index:0.42,remit_index:0.537,composite:0.2},
-  {cd:"UT",name:"Utah",fips:"49",neuro:78,legacy:26,nonneuro:170,remit:248,misdx:272,legacy_index:0.508,misdx_index:0.39,remit_index:0.413,composite:0.141},
-  {cd:"AK",name:"Alaska",fips:"02",neuro:15,legacy:5,nonneuro:34,remit:49,misdx:52,legacy_index:0.462,misdx_index:0.353,remit_index:0.386,composite:0.12}
+  {cd:"DC",name:"District of Columbia",fips:"11",neuro:54, legacy:30, nonneuro:7,  remit:61,  misdx:407, legacy_index:3.456,misdx_index:2.388,remit_index:1.640,composite:6.822},
+  {cd:"NH",name:"New Hampshire",       fips:"33",neuro:82, legacy:36, nonneuro:8,  remit:90,  misdx:603, legacy_index:2.067,misdx_index:1.763,remit_index:0.934,composite:2.985},
+  {cd:"DE",name:"Delaware",            fips:"10",neuro:53, legacy:34, nonneuro:5,  remit:58,  misdx:362, legacy_index:2.615,misdx_index:1.418,remit_index:0.782,composite:2.850},
+  {cd:"MI",name:"Michigan",            fips:"26",neuro:408,legacy:189,nonneuro:73, remit:481, misdx:3831,legacy_index:1.508,misdx_index:1.557,remit_index:1.184,composite:2.181},
+  {cd:"NY",name:"New York",            fips:"36",neuro:828,legacy:346,nonneuro:178,remit:1006,misdx:5279,legacy_index:1.409,misdx_index:1.095,remit_index:1.474,composite:1.566},
+  {cd:"ME",name:"Maine",               fips:"23",neuro:51, legacy:26, nonneuro:4,  remit:55,  misdx:449, legacy_index:1.497,misdx_index:1.317,remit_index:0.468,composite:1.524},
+  {cd:"PA",name:"Pennsylvania",        fips:"42",neuro:500,legacy:213,nonneuro:108,remit:608, misdx:3538,legacy_index:1.317,misdx_index:1.115,remit_index:1.358,composite:1.483},
+  {cd:"AZ",name:"Arizona",             fips:"04",neuro:249,legacy:114,nonneuro:42, remit:291, misdx:2385,legacy_index:1.216,misdx_index:1.296,remit_index:0.911,composite:1.446},
+  {cd:"FL",name:"Florida",             fips:"12",neuro:792,legacy:340,nonneuro:147,remit:939, misdx:7067,legacy_index:1.177,misdx_index:1.246,remit_index:1.034,composite:1.407},
+  {cd:"CT",name:"Connecticut",         fips:"09",neuro:144,legacy:44, nonneuro:39, remit:183, misdx:1022,legacy_index:0.968,misdx_index:1.146,remit_index:1.745,composite:1.403},
+  {cd:"NJ",name:"New Jersey",          fips:"34",neuro:313,legacy:136,nonneuro:52, remit:365, misdx:2957,legacy_index:1.158,misdx_index:1.282,remit_index:0.900,composite:1.376},
+  {cd:"MD",name:"Maryland",            fips:"24",neuro:218,legacy:104,nonneuro:37, remit:255, misdx:1699,legacy_index:1.343,misdx_index:1.118,remit_index:0.972,composite:1.364},
+  {cd:"MN",name:"Minnesota",           fips:"27",neuro:242,legacy:93, nonneuro:53, remit:295, misdx:1344,legacy_index:1.299,misdx_index:0.956,remit_index:1.505,composite:1.306},
+  {cd:"NV",name:"Nevada",              fips:"32",neuro:97, legacy:33, nonneuro:17, remit:114, misdx:1225,legacy_index:0.817,misdx_index:1.545,remit_index:0.856,composite:1.282},
+  {cd:"OH",name:"Ohio",                fips:"39",neuro:438,legacy:177,nonneuro:82, remit:520, misdx:2998,legacy_index:1.205,misdx_index:1.039,remit_index:1.135,composite:1.228},
+  {cd:"LA",name:"Louisiana",           fips:"22",neuro:149,legacy:38, nonneuro:30, remit:179, misdx:1579,legacy_index:0.669,misdx_index:1.415,remit_index:1.073,composite:1.135},
+  {cd:"CA",name:"California",          fips:"06",neuro:1229,legacy:577,nonneuro:230,remit:1459,misdx:9435,legacy_index:1.184,misdx_index:0.986,remit_index:0.959,composite:1.094},
+  {cd:"VA",name:"Virginia",            fips:"51",neuro:292,legacy:126,nonneuro:54, remit:346, misdx:1990,legacy_index:1.157,misdx_index:0.930,remit_index:1.008,composite:1.031},
+  {cd:"KY",name:"Kentucky",            fips:"21",neuro:132,legacy:42, nonneuro:31, remit:163, misdx:1316,legacy_index:0.740,misdx_index:1.182,remit_index:1.111,composite:1.019},
+  {cd:"WV",name:"West Virginia",       fips:"54",neuro:61, legacy:20, nonneuro:12, remit:73,  misdx:440, legacy_index:0.914,misdx_index:1.024,remit_index:1.115,composite:1.004},
+  {cd:"CO",name:"Colorado",            fips:"08",neuro:185,legacy:80, nonneuro:33, remit:218, misdx:1411,legacy_index:1.086,misdx_index:0.976,remit_index:0.911,composite:1.004},
+  {cd:"SC",name:"South Carolina",      fips:"45",neuro:143,legacy:58, nonneuro:22, remit:165, misdx:1633,legacy_index:0.856,misdx_index:1.228,remit_index:0.660,composite:0.972},
+  {cd:"MA",name:"Massachusetts",       fips:"25",neuro:248,legacy:85, nonneuro:74, remit:322, misdx:1315,legacy_index:0.963,misdx_index:0.759,remit_index:1.706,composite:0.917},
+  {cd:"TN",name:"Tennessee",           fips:"47",neuro:177,legacy:64, nonneuro:34, remit:211, misdx:2036,legacy_index:0.716,misdx_index:1.161,remit_index:0.774,composite:0.853},
+  {cd:"NM",name:"New Mexico",          fips:"35",neuro:54, legacy:22, nonneuro:9,  remit:63,  misdx:519, legacy_index:0.835,misdx_index:1.004,remit_index:0.695,composite:0.792},
+  {cd:"IN",name:"Indiana",             fips:"18",neuro:223,legacy:70, nonneuro:30, remit:253, misdx:1568,legacy_index:0.818,misdx_index:0.933,remit_index:0.713,composite:0.731},
+  {cd:"MO",name:"Missouri",            fips:"29",neuro:197,legacy:71, nonneuro:49, remit:246, misdx:1055,legacy_index:0.920,misdx_index:0.696,remit_index:1.290,composite:0.725},
+  {cd:"IL",name:"Illinois",            fips:"17",neuro:372,legacy:136,nonneuro:82, remit:454, misdx:2183,legacy_index:0.866,misdx_index:0.708,remit_index:1.061,composite:0.658},
+  {cd:"NE",name:"Nebraska",            fips:"31",neuro:53, legacy:19, nonneuro:6,  remit:59,  misdx:466, legacy_index:0.766,misdx_index:0.957,remit_index:0.492,composite:0.647},
+  {cd:"GA",name:"Georgia",             fips:"13",neuro:275,legacy:111,nonneuro:60, remit:335, misdx:2113,legacy_index:0.803,misdx_index:0.779,remit_index:0.883,composite:0.646},
+  {cd:"TX",name:"Texas",               fips:"48",neuro:645,legacy:248,nonneuro:117,remit:762, misdx:7481,legacy_index:0.641,misdx_index:0.985,remit_index:0.615,composite:0.623},
+  {cd:"WA",name:"Washington",          fips:"53",neuro:208,legacy:65, nonneuro:62, remit:270, misdx:1341,legacy_index:0.661,misdx_index:0.694,remit_index:1.281,composite:0.601},
+  {cd:"AL",name:"Alabama",             fips:"01",neuro:125,legacy:34, nonneuro:20, remit:145, misdx:1309,legacy_index:0.533,misdx_index:1.046,remit_index:0.638,composite:0.594},
+  {cd:"WI",name:"Wisconsin",           fips:"55",neuro:152,legacy:46, nonneuro:39, remit:191, misdx:1005,legacy_index:0.624,misdx_index:0.695,remit_index:1.076,composite:0.537},
+  {cd:"KS",name:"Kansas",              fips:"20",neuro:72, legacy:29, nonneuro:13, remit:85,  misdx:480, legacy_index:0.790,misdx_index:0.666,remit_index:0.720,composite:0.510},
+  {cd:"IA",name:"Iowa",                fips:"19",neuro:61, legacy:33, nonneuro:9,  remit:70,  misdx:545, legacy_index:0.823,misdx_index:0.693,remit_index:0.457,composite:0.487},
+  {cd:"OR",name:"Oregon",              fips:"41",neuro:104,legacy:36, nonneuro:22, remit:126, misdx:671, legacy_index:0.682,misdx_index:0.647,remit_index:0.847,composite:0.476},
+  {cd:"NC",name:"North Carolina",      fips:"37",neuro:269,legacy:88, nonneuro:77, remit:346, misdx:1534,legacy_index:0.644,misdx_index:0.572,remit_index:1.147,composite:0.463},
+  {cd:"OK",name:"Oklahoma",            fips:"40",neuro:82, legacy:25, nonneuro:24, remit:106, misdx:692, legacy_index:0.494,misdx_index:0.696,remit_index:0.964,composite:0.452},
+  {cd:"MS",name:"Mississippi",         fips:"28",neuro:60, legacy:19, nonneuro:12, remit:72,  misdx:513, legacy_index:0.522,misdx_index:0.718,remit_index:0.671,composite:0.410},
+  {cd:"AR",name:"Arkansas",            fips:"05",neuro:54, legacy:18, nonneuro:8,  remit:62,  misdx:515, legacy_index:0.471,misdx_index:0.687,remit_index:0.426,composite:0.314},
+  {cd:"UT",name:"Utah",                fips:"49",neuro:77, legacy:25, nonneuro:16, remit:93,  misdx:370, legacy_index:0.577,misdx_index:0.435,remit_index:0.751,composite:0.276}
 ];
+
+// ── Account lookup data (sources: part 8A.8 / 8A.9 / 8b3 / 8b4_updated) ──
+// DX_STATE: state-level dx account summary (priority accounts & patients)
+const DX_STATE = new Map([
+  ["TX",{pri:19,pri_pts:8567}], ["NY",{pri:12,pri_pts:5547}], ["FL",{pri:12,pri_pts:5090}],
+  ["NJ",{pri:11,pri_pts:2822}], ["AZ",{pri:9, pri_pts:3242}], ["CA",{pri:9, pri_pts:3719}],
+  ["VA",{pri:8, pri_pts:4296}], ["MI",{pri:7, pri_pts:3790}], ["MN",{pri:7, pri_pts:2447}],
+  ["IL",{pri:7, pri_pts:4370}], ["TN",{pri:7, pri_pts:2161}], ["OH",{pri:7, pri_pts:4260}],
+  ["SC",{pri:7, pri_pts:2035}], ["PA",{pri:6, pri_pts:2188}], ["LA",{pri:5, pri_pts:1738}],
+  ["MD",{pri:4, pri_pts:1532}], ["IN",{pri:4, pri_pts:2190}], ["WI",{pri:3, pri_pts:744}],
+  ["GA",{pri:3, pri_pts:1009}], ["DC",{pri:3, pri_pts:1297}], ["NH",{pri:3, pri_pts:1038}],
+  ["CT",{pri:3, pri_pts:1074}], ["MA",{pri:2, pri_pts:509}],  ["AL",{pri:2, pri_pts:845}],
+  ["KY",{pri:2, pri_pts:548}],  ["MS",{pri:2, pri_pts:706}],  ["CO",{pri:2, pri_pts:1290}],
+  ["RI",{pri:1, pri_pts:258}],  ["NM",{pri:1, pri_pts:302}],  ["NE",{pri:1, pri_pts:282}],
+  ["DE",{pri:1, pri_pts:385}],  ["KS",{pri:1, pri_pts:674}],  ["WA",{pri:1, pri_pts:277}],
+  ["NC",{pri:1, pri_pts:286}],  ["ME",{pri:1, pri_pts:425}],  ["NV",{pri:1, pri_pts:284}],
+  ["AR",{pri:1, pri_pts:631}]
+]);
+
+// INF_STATE: state-level infusion account summary
+const INF_STATE = new Map([
+  ["TX",{pri:12,pri_pts:1153}], ["FL",{pri:8, pri_pts:353}],  ["TN",{pri:7, pri_pts:410}],
+  ["NY",{pri:7, pri_pts:475}],  ["OH",{pri:6, pri_pts:251}],  ["AZ",{pri:5, pri_pts:241}],
+  ["MI",{pri:5, pri_pts:398}],  ["MN",{pri:5, pri_pts:242}],  ["VA",{pri:4, pri_pts:245}],
+  ["NJ",{pri:4, pri_pts:187}],  ["CA",{pri:4, pri_pts:237}],  ["AL",{pri:4, pri_pts:175}],
+  ["IL",{pri:3, pri_pts:181}],  ["NV",{pri:3, pri_pts:148}],  ["GA",{pri:3, pri_pts:88}],
+  ["CT",{pri:3, pri_pts:134}],  ["LA",{pri:2, pri_pts:90}],   ["PA",{pri:2, pri_pts:57}],
+  ["SC",{pri:2, pri_pts:95}],   ["NC",{pri:2, pri_pts:62}],   ["MA",{pri:2, pri_pts:58}],
+  ["WA",{pri:2, pri_pts:65}],   ["MD",{pri:2, pri_pts:87}],   ["AR",{pri:2, pri_pts:64}],
+  ["NM",{pri:1, pri_pts:64}],   ["OR",{pri:1, pri_pts:58}],   ["KY",{pri:1, pri_pts:36}],
+  ["WI",{pri:1, pri_pts:38}],   ["KS",{pri:1, pri_pts:43}],   ["NE",{pri:1, pri_pts:27}],
+  ["NH",{pri:1, pri_pts:58}],   ["ME",{pri:1, pri_pts:34}],   ["RI",{pri:1, pri_pts:27}],
+  ["MO",{pri:1, pri_pts:41}],   ["CO",{pri:1, pri_pts:53}]
+]);
+
+// TOP_DX: top dx account per state (by total patients, from part 8A.9)
+// fields: n=name, cl=classification, city, tot=total pts, gmg/cidp/mmn patient counts
+const TOP_DX = new Map([
+  ["OH",{n:"Cleveland Clinic Main Campus",  cl:"Hospital",          city:"Cleveland",    tot:2129,gmg:1586,cidp:449,mmn:100}],
+  ["MI",{n:"U of Michigan Health",          cl:"Hospital",          city:"Ann Arbor",    tot:1619,gmg:1121,cidp:402,mmn:111}],
+  ["IL",{n:"Northwestern Medical Group",    cl:"Outpatient Clinic", city:"Chicago",      tot:1396,gmg:931, cidp:406,mmn:71}],
+  ["FL",{n:"Neuroscience Consultants",      cl:"Physician Practice",city:"Miami",        tot:1356,gmg:862, cidp:462,mmn:65}],
+  ["VA",{n:"Privia Medical Group",          cl:"Physician Practice",city:"Reston",       tot:1228,gmg:936, cidp:260,mmn:39}],
+  ["NY",{n:"Columbia University",           cl:"Physician Practice",city:"New York",     tot:1050,gmg:518, cidp:439,mmn:105}],
+  ["TX",{n:"Christus Trinity Clinic",       cl:"Physician Practice",city:"Tyler",        tot:1034,gmg:662, cidp:380,mmn:25}],
+  ["CA",{n:"Stanford Hospital",             cl:"Hospital",          city:"Stanford",     tot:1033,gmg:730, cidp:248,mmn:63}],
+  ["CO",{n:"CU Medicine",                   cl:"Physician Practice",city:"Aurora",       tot:977, gmg:666, cidp:264,mmn:54}],
+  ["MD",{n:"MedStar Medical Group II",      cl:"Physician Practice",city:"Baltimore",    tot:771, gmg:567, cidp:191,mmn:17}],
+  ["AZ",{n:"HonorHealth J.C. Lincoln",      cl:"Hospital",          city:"Phoenix",      tot:719, gmg:442, cidp:245,mmn:40}],
+  ["IN",{n:"Indiana Clinic – Neurology",    cl:"Physician Practice",city:"Indianapolis", tot:701, gmg:534, cidp:145,mmn:30}],
+  ["KS",{n:"U of Kansas Health System",     cl:"Hospital",          city:"Kansas City",  tot:674, gmg:484, cidp:159,mmn:36}],
+  ["TN",{n:"AdvancedHealth",                cl:"Physician Practice",city:"Franklin",     tot:672, gmg:452, cidp:219,mmn:10}],
+  ["AR",{n:"UAMS Medical Center",           cl:"Hospital",          city:"Little Rock",  tot:631, gmg:461, cidp:163,mmn:11}],
+  ["MN",{n:"Mayo Clinic",                   cl:"Outpatient Clinic", city:"Rochester",    tot:598, gmg:378, cidp:194,mmn:29}],
+  ["DC",{n:"MGMC, LLC",                     cl:"Physician Practice",city:"Washington",   tot:559, gmg:360, cidp:181,mmn:25}],
+  ["PA",{n:"Lehigh Valley Hospital",        cl:"Hospital",          city:"Allentown",    tot:545, gmg:392, cidp:144,mmn:13}],
+  ["NH",{n:"Mary Hitchcock Memorial",       cl:"Hospital",          city:"Lebanon",      tot:539, gmg:300, cidp:196,mmn:48}],
+  ["MS",{n:"U of Mississippi Med Ctr",      cl:"Hospital",          city:"Jackson",      tot:493, gmg:357, cidp:118,mmn:21}],
+  ["CT",{n:"Hartford Healthcare Med Grp",   cl:"Physician Practice",city:"Hartford",     tot:476, gmg:311, cidp:141,mmn:25}],
+  ["AL",{n:"UAB Hospital",                  cl:"Hospital",          city:"Birmingham",   tot:455, gmg:323, cidp:129,mmn:8}],
+  ["GA",{n:"Piedmont Physicians",           cl:"Physician Practice",city:"Jasper",       tot:436, gmg:325, cidp:104,mmn:11}],
+  ["ME",{n:"Maine Medical Center",          cl:"Hospital",          city:"Portland",     tot:425, gmg:284, cidp:130,mmn:16}],
+  ["SC",{n:"MUSC",                          cl:"Hospital",          city:"Charleston",   tot:421, gmg:317, cidp:91, mmn:16}],
+  ["LA",{n:"Our Lady of the Lake",          cl:"Physician Practice",city:"Lafayette",    tot:404, gmg:172, cidp:197,mmn:35}],
+  ["DE",{n:"ChristianaCare Wilmington",     cl:"Hospital",          city:"Wilmington",   tot:385, gmg:308, cidp:73, mmn:5}],
+  ["NJ",{n:"Hackensack Univ Med Ctr",       cl:"Hospital",          city:"Hackensack",   tot:364, gmg:239, cidp:122,mmn:5}],
+  ["NM",{n:"Presbyterian Hospital",         cl:"Hospital",          city:"Albuquerque",  tot:302, gmg:212, cidp:68, mmn:24}],
+  ["KY",{n:"Baptist Health Medical Grp",    cl:"Physician Practice",city:"Louisville",   tot:299, gmg:180, cidp:102,mmn:24}],
+  ["NC",{n:"WakeMed Raleigh",               cl:"Hospital",          city:"Raleigh",      tot:286, gmg:206, cidp:75, mmn:5}],
+  ["NV",{n:"Renown Regional Med Ctr",       cl:"Hospital",          city:"Reno",         tot:284, gmg:199, cidp:80, mmn:7}],
+  ["NE",{n:"Methodist Physicians Clinic",   cl:"Physician Practice",city:"Omaha",        tot:282, gmg:218, cidp:58, mmn:7}],
+  ["WA",{n:"Franciscan Medical Group",      cl:"Physician Practice",city:"Tacoma",       tot:277, gmg:193, cidp:69, mmn:20}],
+  ["MA",{n:"Lahey Hospital & Med Ctr",      cl:"Hospital",          city:"Burlington",   tot:275, gmg:209, cidp:60, mmn:9}],
+  ["RI",{n:"Brown Neurology",               cl:"Physician Practice",city:"Providence",   tot:258, gmg:169, cidp:72, mmn:22}],
+  ["WI",{n:"Medical College of Wisconsin",  cl:"Physician Practice",city:"Wauwatosa",    tot:254, gmg:186, cidp:62, mmn:12}]
+]);
+
+// TOP_INF: top infusion site per state (by total patients, from part 8b4_updated)
+// fields: n=name, cl=classification, city, tot, ivig=ivig_pct, bio=biologic_pct, coe
+const TOP_INF = new Map([
+  ["IL",{n:"MIDC, LLC",                     cl:"Physician Practice",city:"Burr Ridge",       tot:539,ivig:51.2,bio:54.4,coe:true}],
+  ["TX",{n:"Lone Star Neurology",            cl:"Physician Practice",city:"Frisco",           tot:251,ivig:90.8,bio:15.9,coe:true}],
+  ["NY",{n:"Dent Neurologic Institute",      cl:"Physician Practice",city:"Amherst",          tot:212,ivig:78.3,bio:34.4,coe:true}],
+  ["LA",{n:"Reliant Specialty Infusion",     cl:"Outpatient Clinic", city:"Monroe",           tot:186,ivig:39.2,bio:66.1,coe:false}],
+  ["MI",{n:"U of Michigan Health",           cl:"Hospital",          city:"Ann Arbor",        tot:183,ivig:82.5,bio:21.3,coe:true}],
+  ["FL",{n:"Neuroscience Consultants",       cl:"Physician Practice",city:"Miami",            tot:153,ivig:43.8,bio:60.8,coe:true}],
+  ["CA",{n:"Stanford Hospital",              cl:"Hospital",          city:"Stanford",         tot:151,ivig:70.9,bio:38.4,coe:true}],
+  ["MN",{n:"M Health Fairview UMN",          cl:"Hospital",          city:"Minneapolis",      tot:117,ivig:83.8,bio:23.1,coe:true}],
+  ["ME",{n:"Maine Medical Center",           cl:"Hospital",          city:"Portland",         tot:98, ivig:82.7,bio:27.6,coe:true}],
+  ["OH",{n:"Cleveland Clinic",               cl:"Hospital",          city:"Cleveland",        tot:95, ivig:90.5,bio:15.8,coe:true}],
+  ["VA",{n:"UVA Health",                     cl:"Hospital",          city:"Charlottesville",  tot:91, ivig:73.6,bio:33.0,coe:true}],
+  ["NM",{n:"Presbyterian Hospital",          cl:"Hospital",          city:"Albuquerque",      tot:89, ivig:87.6,bio:21.3,coe:true}],
+  ["TN",{n:"Tri State Mountain Neurology",   cl:"Physician Practice",city:"Johnson City",     tot:82, ivig:84.1,bio:18.3,coe:true}],
+  ["AL",{n:"Neurology Consultants",          cl:"Physician Practice",city:"Montgomery",       tot:80, ivig:90.0,bio:28.8,coe:true}],
+  ["AZ",{n:"Neuromuscular Research Ctr",     cl:"Physician Practice",city:"Phoenix",          tot:74, ivig:89.2,bio:16.2,coe:true}],
+  ["NH",{n:"Mary Hitchcock Memorial",        cl:"Hospital",          city:"Lebanon",          tot:69, ivig:84.1,bio:26.1,coe:true}],
+  ["CT",{n:"Hartford Hospital",              cl:"Hospital",          city:"Hartford",         tot:58, ivig:94.8,bio:15.5,coe:true}],
+  ["OR",{n:"PeaceHealth Sacred Heart",       cl:"Hospital",          city:"Springfield",      tot:57, ivig:93.0,bio:15.8,coe:true}],
+  ["CO",{n:"Pure Healthcare of Colorado",    cl:"Outpatient Clinic", city:"Colorado Springs", tot:54, ivig:63.0,bio:37.0,coe:false}],
+  ["KS",{n:"U of Kansas Health System",      cl:"Hospital",          city:"Kansas City",      tot:52, ivig:78.8,bio:26.9,coe:true}],
+  ["KY",{n:"Baptist Health La Grange",       cl:"Hospital",          city:"La Grange",        tot:60, ivig:61.7,bio:56.7,coe:true}],
+  ["NJ",{n:"Overlook Medical Center",        cl:"Hospital",          city:"Summit",           tot:50, ivig:94.0,bio:10.0,coe:true}],
+  ["PA",{n:"Lehigh Valley Hospital",         cl:"Hospital",          city:"Allentown",        tot:50, ivig:78.0,bio:34.0,coe:true}],
+  ["MD",{n:"Annapolis Neurology Assoc.",     cl:"Physician Practice",city:"Annapolis",        tot:48, ivig:75.0,bio:33.3,coe:true}],
+  ["GA",{n:"Northside Hospital Atlanta",     cl:"Hospital",          city:"Atlanta",          tot:48, ivig:77.1,bio:37.5,coe:true}],
+  ["MA",{n:"Beth Israel Deaconess",          cl:"Hospital",          city:"Boston",           tot:41, ivig:95.1,bio:7.3, coe:true}],
+  ["NE",{n:"Bryan East Campus",              cl:"Hospital",          city:"Lincoln",          tot:40, ivig:97.5,bio:12.5,coe:true}],
+  ["MS",{n:"U of Mississippi Med Ctr",       cl:"Hospital",          city:"Jackson",          tot:39, ivig:74.4,bio:30.8,coe:true}],
+  ["WA",{n:"PeaceHealth Southwest",          cl:"Hospital",          city:"Vancouver",        tot:39, ivig:100.0,bio:10.3,coe:false}],
+  ["WI",{n:"Neuroscience Group",             cl:"Physician Practice",city:"Neenah",           tot:38, ivig:0.0, bio:100.0,coe:true}],
+  ["AR",{n:"UAMS Medical Center",            cl:"Hospital",          city:"Little Rock",      tot:37, ivig:83.8,bio:18.9,coe:true}],
+  ["MO",{n:"North Kansas City Hospital",     cl:"Hospital",          city:"N. Kansas City",   tot:36, ivig:97.2,bio:5.6, coe:true}],
+  ["NC",{n:"Asheville Neurology Spec.",      cl:"Physician Practice",city:"Asheville",        tot:32, ivig:15.6,bio:84.4,coe:true}],
+  ["SC",{n:"Carolina Neurology",             cl:"Physician Practice",city:"Spartanburg",      tot:61, ivig:80.3,bio:52.5,coe:true}],
+  ["NV",{n:"Renown Regional Med Ctr",        cl:"Hospital",          city:"Reno",             tot:59, ivig:83.1,bio:22.0,coe:true}],
+  ["DC",{n:"MedStar Georgetown",             cl:"Hospital",          city:"Washington",       tot:28, ivig:85.7,bio:14.3,coe:true}],
+  ["IN",{n:"IU Health Fort Wayne",           cl:"Physician Practice",city:"Muncie",           tot:26, ivig:34.6,bio:73.1,coe:true}],
+  ["RI",{n:"Brown Neurology",                cl:"Physician Practice",city:"Providence",       tot:26, ivig:80.8,bio:19.2,coe:true}]
+]);
 
 const METRICS = {
   composite:    {label:"Market Shaping Priority", legend:"Composite Index",                     header:"Composite"},
@@ -683,21 +809,49 @@ const tipEl = document.getElementById("tip");
 function showTip(e, d) {
   const m = METRICS[metric];
   const v = d[metric];
-  tipEl.innerHTML = `
+  let html = `
     <div class="tt-name">${d.name}</div>
     <div class="tt-m">${m.header}: ${v != null ? v.toFixed(2) : "—"}×</div>
     <div class="tt-r">Neurology HCPs: <strong>${d.neuro.toLocaleString()}</strong></div>
     <div class="tt-r">Legacy HCPs: <strong>${d.legacy.toLocaleString()}</strong></div>
     <div class="tt-r">Non-neuro HCPs: <strong>${d.nonneuro.toLocaleString()}</strong></div>
     <div class="tt-r">Misdx Patients: <strong>${d.misdx.toLocaleString()}</strong></div>`;
+
+  const dx  = TOP_DX.get(d.cd);
+  const dxS = DX_STATE.get(d.cd);
+  if (dx) {
+    html += `<div class="tt-sep"></div>
+    <div class="tt-sec">Top Dx Account</div>
+    <div class="tt-acc-name">${dx.n}</div>
+    <div class="tt-acc-sub">${dx.cl} · ${dx.city}</div>
+    <div class="tt-acc-pts"><strong>${dx.tot.toLocaleString()}</strong> total pts &nbsp;·&nbsp; ${dx.gmg.toLocaleString()} gMG &nbsp;·&nbsp; ${dx.cidp.toLocaleString()} CIDP</div>`;
+    if (dxS) html += `<div class="tt-r">${dxS.pri} priority accounts · ${dxS.pri_pts.toLocaleString()} pts in state</div>`;
+  }
+
+  const inf  = TOP_INF.get(d.cd);
+  const infS = INF_STATE.get(d.cd);
+  if (inf) {
+    const coeTag = inf.coe ? ' <span class="tt-coe">CoE</span>' : '';
+    const ivigLine = inf.ivig > 0 ? `IVIg ${inf.ivig}%` : `Bio only`;
+    html += `<div class="tt-sep"></div>
+    <div class="tt-sec">Top Infusion Site</div>
+    <div class="tt-acc-name">${inf.n}${coeTag}</div>
+    <div class="tt-acc-sub">${inf.cl} · ${inf.city}</div>
+    <div class="tt-acc-pts"><strong>${inf.tot.toLocaleString()}</strong> pts &nbsp;·&nbsp; ${ivigLine} &nbsp;·&nbsp; Bio ${inf.bio}%</div>`;
+    if (infS) html += `<div class="tt-r">${infS.pri} priority sites · ${infS.pri_pts.toLocaleString()} pts in state</div>`;
+  }
+
+  tipEl.innerHTML = html;
   tipEl.style.display = "block";
   moveTip(e);
 }
 function moveTip(e) {
-  let x = e.clientX+18, y = e.clientY-14;
-  if (x+260>window.innerWidth) x=e.clientX-265;
-  if (y+155>window.innerHeight) y=e.clientY-160;
-  tipEl.style.left=x+"px"; tipEl.style.top=y+"px";
+  const tw = tipEl.offsetWidth, th = tipEl.offsetHeight;
+  let x = e.clientX + 18, y = e.clientY - 14;
+  if (x + tw + 8 > window.innerWidth)  x = e.clientX - tw - 8;
+  if (y + th + 8 > window.innerHeight) y = window.innerHeight - th - 8;
+  if (y < 8) y = 8;
+  tipEl.style.left = x + "px"; tipEl.style.top = y + "px";
 }
 function hideTip() { tipEl.style.display="none"; }
 
