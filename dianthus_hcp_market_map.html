@@ -593,8 +593,8 @@
 
 <!-- CONTROLS BAR -->
 <div class="ctrl-bar">
-  <div class="filter-wrap" onclick="document.getElementById('scaleChk').click()">
-    <input type="checkbox" id="scaleChk" checked onchange="renderTable();event.stopPropagation()">
+  <div class="filter-wrap">
+    <input type="checkbox" id="scaleChk" checked onchange="renderTable()">
     <label for="scaleChk">Scale states only &nbsp;(&#x2265;50 neurology HCPs)</label>
   </div>
   <div class="tbl-title-grp">
@@ -1271,7 +1271,8 @@ async function initMap() {
   svg.append("g").attr("id","inf-layer");
 
   // State abbreviation labels
-  const bigSet=new Set(["CA","TX","FL","NY","PA","OH","IL","GA","NC","MI","WA","AZ","CO","VA","MN","MA","TN","WI","MO","MD","IN","LA","AL","SC","KY","OK","OR","NV","KS","MS","AR","IA","NE","NM","WV","UT","ND","MT","SD","ID"]);
+  const bigSet=new Set(["CA","TX","FL","NY","PA","OH","IL","GA","NC","MI","WA","AZ","CO","VA","MN","MA","TN","WI","MO","MD","IN","LA","AL","SC","KY","OK","OR","NV","KS","MS","AR","IA","NE","NM","WV","UT","ND","MT","SD","ID","WY"]);
+  // States in DATA
   DATA.forEach(d => {
     if (!bigSet.has(d.cd)) return;
     const f = feat.features.find(x => String(x.id).padStart(2,"0")===d.fips);
@@ -1281,6 +1282,17 @@ async function initMap() {
     svg.append("text").attr("class","st-label")
       .attr("x",c[0]).attr("y",c[1]+4).attr("text-anchor","middle")
       .attr("pointer-events","none").text(d.cd);
+  });
+  // States in bigSet with no data row (no HCP data available)
+  const noDataFips = {"ND":"38","MT":"30","SD":"46","ID":"16","WY":"56"};
+  Object.entries(noDataFips).forEach(([cd, fips]) => {
+    const f = feat.features.find(x => String(x.id).padStart(2,"0")===fips);
+    if (!f) return;
+    const c = path.centroid(f);
+    if (!c||isNaN(c[0])) return;
+    svg.append("text").attr("class","st-label")
+      .attr("x",c[0]).attr("y",c[1]+4).attr("text-anchor","middle")
+      .attr("pointer-events","none").text(cd);
   });
 
   refreshClasses(); drawLegend(); renderTable(); drawAccountLayers();
