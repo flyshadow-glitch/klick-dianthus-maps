@@ -131,11 +131,11 @@
     .hdr-sep { width:1px; height:35px; background:oklch(100% 0 0 / 0.2); flex-shrink:0; }
     .hdr-meta { display:flex; flex-direction:column; gap:2px; }
     .hdr-tag {
-      font-family:'Oswald',sans-serif; font-size:13px; font-weight:400;
+      font-family:'Oswald',sans-serif; font-size:16px; font-weight:400;
       letter-spacing:.14em; text-transform:uppercase; color:oklch(100% 0 0 / 0.48);
     }
     .hdr-sub {
-      font-family:'Libre Franklin',sans-serif; font-size:16px; font-weight:300;
+      font-family:'Libre Franklin',sans-serif; font-size:19px; font-weight:300;
       color:oklch(100% 0 0 / 0.60); letter-spacing:.02em;
     }
     .hdr-title {
@@ -164,7 +164,7 @@
     .state-path.mi   { stroke:var(--amber) !important; stroke-width:2px !important; }
 
     .st-label {
-      font-family:'Oswald',sans-serif; font-size:12px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:16px; font-weight:500;
       fill:oklch(13% 0.006 62 / 0.48); pointer-events:none; letter-spacing:.03em;
     }
 
@@ -174,13 +174,13 @@
       pointer-events:none;
     }
     .leg-label {
-      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:16px; font-weight:500;
       letter-spacing:.09em; text-transform:uppercase; color:var(--cool-dark); margin-bottom:4px;
     }
     #leg-svg { display:block; }
     .leg-ticks {
       display:flex; justify-content:space-between; margin-top:4px;
-      font-family:'Libre Franklin',sans-serif; font-size:13px;
+      font-family:'Libre Franklin',sans-serif; font-size:15px;
       font-variant-numeric:tabular-nums; color:var(--text-dim); width:251px;
     }
     .leg-ticks span:nth-child(2) { font-weight:600; color:var(--text-mid); }
@@ -188,7 +188,7 @@
     /* ── Map zoom hint ──────────────────────────────────────────────── */
     .map-zoom-hint {
       position:absolute; bottom:var(--sp4); right:var(--sp6);
-      font-family:'Libre Franklin',sans-serif; font-size:13px;
+      font-family:'Libre Franklin',sans-serif; font-size:15px;
       color:oklch(42% 0.008 62 / 0.55); pointer-events:none;
       letter-spacing:.02em;
     }
@@ -218,7 +218,7 @@
     }
     .ctrl-grp { display:flex; align-items:center; gap:var(--sp2); }
     .ctrl-lbl {
-      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:16px; font-weight:500;
       letter-spacing:.09em; text-transform:uppercase; color:var(--text-dim);
       flex-shrink:0;
     }
@@ -279,7 +279,7 @@
     }
     table.lb thead th {
       padding: 13px var(--sp4);
-      font-family:'Oswald',sans-serif; font-size:13px; font-weight:500;
+      font-family:'Oswald',sans-serif; font-size:16px; font-weight:500;
       letter-spacing:.08em; text-transform:uppercase;
       color:oklch(100% 0 0 / 0.72); text-align:right; white-space:nowrap;
       cursor: pointer; user-select: none;
@@ -369,7 +369,7 @@
       display:flex; flex-direction:column; gap:var(--sp2);
     }
     .defs-head {
-      font-family:'Oswald',sans-serif; font-size:9.5px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;
       letter-spacing:.10em; text-transform:uppercase; color:var(--cool-dark);
       padding-bottom:var(--sp1);
       border-bottom: 1px solid oklch(38% 0.056 199 / 0.25);
@@ -380,16 +380,16 @@
     }
     .def-item { display:flex; flex-direction:column; gap:1px; }
     .def-name {
-      font-family:'Oswald',sans-serif; font-size:10.5px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:14px; font-weight:600;
       color:var(--text-mid); letter-spacing:.02em;
     }
     .def-desc {
-      font-family:'Libre Franklin',sans-serif; font-size:10.5px;
+      font-family:'Libre Franklin',sans-serif; font-size:13px;
       font-weight:300; color:var(--text-dim); line-height:1.45;
       max-width:66ch;
     }
     .methodology {
-      font-size:10px; font-weight:300; color:oklch(58% 0.007 62 / 0.8);
+      font-size:12px; font-weight:300; color:oklch(58% 0.007 62 / 0.8);
       line-height:1.5; letter-spacing:.01em;
       padding-top:var(--sp1); border-top:1px solid oklch(88% 0.010 62 / 0.4);
     }
@@ -417,7 +417,7 @@
     .guide-card[data-metric="remit_index"].active  { border-top-color: var(--amber);     background: oklch(98% 0.020 84  / 0.25); }
     .guide-chip {
       display: inline-block; align-self: flex-start;
-      font-family: 'Oswald',sans-serif; font-size: 11px; font-weight: 700;
+      font-family: 'Oswald',sans-serif; font-size: 14px; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase;
       padding: 3px 7px; border-radius: 2px;
     }
@@ -426,11 +426,11 @@
     .guide-chip-misdx     { background: var(--warm-mid);  color: #fff; }
     .guide-chip-remit     { background: var(--amber); color: var(--text); }
     .guide-name {
-      font-family: 'Oswald',sans-serif; font-size: 15px; font-weight: 600;
+      font-family: 'Oswald',sans-serif; font-size: 18px; font-weight: 600;
       color: var(--text); letter-spacing: .02em;
     }
     .guide-desc {
-      font-family: 'Libre Franklin',sans-serif; font-size: 13px; font-weight: 300;
+      font-family: 'Libre Franklin',sans-serif; font-size: 16px; font-weight: 300;
       color: var(--text-dim); line-height: 1.38;
     }
 
@@ -483,7 +483,7 @@
     }
     .layer-btn {
       display:flex; align-items:center; gap:7px;
-      font-family:'Oswald',sans-serif; font-size:11px; font-weight:600;
+      font-family:'Oswald',sans-serif; font-size:14px; font-weight:600;
       letter-spacing:.09em; text-transform:uppercase;
       background:oklch(99.5% 0.002 62 / 0.90); color:var(--text-mid);
       border:1.5px solid var(--border-md); border-radius:3px;
